@@ -702,35 +702,6 @@
             let users = JSON.parse(localStorage.getItem('nice_premium_users')) || {};
             let currentUser = localStorage.getItem('nice_premium_current') || null;
             let currentPage = 'home';
-async function fetchItemsFromGitHub() {
-    try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues`);
-        const issues = await response.json();
-        
-        // Issues verilerini SHOP_ITEMS formatına çeviriyoruz
-        SHOP_ITEMS = issues.map(issue => {
-            // Issue içeriğini "Fiyat | İkon | Açıklama" şeklinde yazdığını varsayıyoruz
-            // Örn: "50 | 💎 | Çok güçlü bir elmas"
-            const details = issue.body.split('|');
-            
-            return {
-                id: issue.id,
-                name: issue.title,
-                price: parseInt(details[0]) || 0,
-                icon: (details[1] || "📦").trim(),
-                desc: (details[2] || "").trim(),
-                bulk: true // Adet seçilsin mi?
-            };
-        });
-
-        // Eğer mağaza sayfasındaysak listeyi tazele
-        if (currentPage === 'shop') {
-            renderShop();
-        }
-    } catch (error) {
-        console.error("Ürünler yüklenirken hata oluştu:", error);
-    }
-}
 
             // Credit Codes (GİZLİ)
             const CREDIT_CODES = {
@@ -745,12 +716,24 @@ async function fetchItemsFromGitHub() {
             const UNLIMITED_CODE = 'kurucuzerlaxartivilayet';
 
             // Shop Items
-           // GitHub Bilgilerin (Buraları kendine göre doldur kanka)
-const GITHUB_USER = "taeturkish"; 
-const GITHUB_REPO = "nicecraftnetwork";
-
-// Başlangıçta boş olacak, GitHub'dan dolacak
-let SHOP_ITEMS = [];
+            const SHOP_ITEMS = [
+                { id: 'domuz', icon: '🐷', name: 'Domuz Spawner', price: 30 },
+                { id: 'inek', icon: '🐮', name: 'İnek Spawner', price: 40 },
+                { id: 'zombi', icon: '🧟', name: 'Zombi Spawner', price: 50 },
+                { id: 'iskelet', icon: '💀', name: 'İskelet Spawner', price: 50 },
+                { id: 'creeper', icon: '💥', name: 'Creeper Spawner', price: 60 },
+                { id: 'orumcek', icon: '🕷️', name: 'Örümcek Spawner', price: 70 },
+                { id: 'blaze', icon: '🔥', name: 'Blaze Spawner', price: 120 },
+                { id: 'demirgolem', icon: '⚙️', name: 'Demir Golem Spawner', price: 150 },
+                { id: 'baslangic', icon: '🎁', name: 'Başlangıç Kiti', price: 300, desc: 'Netherite Kılıç, Netherite Göğüslük ve 300 Kredi' },
+                { id: 'elitra', icon: '🪽', name: 'Elitra', price: 150 },
+                { id: 'komur', icon: '🪨', name: 'Kömür (10 adet)', price: 1, bulk: 10 },
+                { id: 'demir', icon: '⛏️', name: 'Demir (10 adet)', price: 3, bulk: 10 },
+                { id: 'zumrut', icon: '💚', name: 'Zümrüt (10 adet)', price: 5, bulk: 10 },
+                { id: 'altin', icon: '🟡', name: 'Altın (10 adet)', price: 6, bulk: 10 },
+                { id: 'elmas', icon: '💎', name: 'Elmas (10 adet)', price: 8, bulk: 10 },
+                { id: 'netherite', icon: '🟣', name: 'Netherite (10 adet)', price: 10, bulk: 10 }
+            ];
 
             // Bildirim Sistemi
             function addNotification(userId, title, message, type = 'info', icon = 'fa-bell') {
@@ -1540,9 +1523,10 @@ let SHOP_ITEMS = [];
                 }
             });
 
-           // Initialize
-            fetchItemsFromGitHub(); // Bunu ekledik ki ürünleri çeksin
-            render(); // Sayfayı çizsin
+            // Initialize
+            render();
             window.render = render;
         })();
     </script>
+</body>
+</html>
