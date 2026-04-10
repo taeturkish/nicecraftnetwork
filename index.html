@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -64,9 +60,7 @@
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(100, 150, 255, 0.15);
             border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(100, 150, 255, 0.1) inset,
-                        0 0 30px rgba(100, 150, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(100, 150, 255, 0.1) inset, 0 0 30px rgba(100, 150, 255, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -119,7 +113,6 @@
             letter-spacing: -0.5px;
         }
 
-        /* Tab Navigation */
         .tab-nav {
             display: flex;
             gap: 10px;
@@ -157,167 +150,6 @@
             color: white;
             box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
         }
-
-        /* Bildirim Sistemi */
-        .notification-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            padding: 10px;
-            background: rgba(20, 30, 50, 0.6);
-            border-radius: 50%;
-            transition: all 0.3s;
-            border: 1px solid rgba(100, 150, 255, 0.2);
-        }
-
-        .notification-bell:hover {
-            background: rgba(30, 40, 60, 0.8);
-            transform: scale(1.05);
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            border: 2px solid #0f1525;
-            animation: badgePulse 2s infinite;
-        }
-
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .notification-dropdown {
-            position: absolute;
-            top: 50px;
-            right: 0;
-            width: 380px;
-            max-height: 500px;
-            overflow-y: auto;
-            background: rgba(10, 20, 40, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            display: none;
-        }
-
-        .notification-dropdown.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .notification-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .notification-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.2s;
-            cursor: pointer;
-            display: flex;
-            gap: 12px;
-            align-items: start;
-        }
-
-        .notification-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .notification-item.unread {
-            background: rgba(79, 70, 229, 0.1);
-            border-left: 3px solid #6366f1;
-        }
-
-        .notification-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .notification-time {
-            font-size: 11px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-
-        .notification-empty {
-            padding: 40px;
-            text-align: center;
-            color: #6b7280;
-        }
-
-        /* Toast Bildirimleri */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-
-        .toast {
-            background: rgba(15, 25, 45, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: toastSlideIn 0.3s ease-out;
-            min-width: 300px;
-        }
-
-        @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .toast.success { border-left: 4px solid #10b981; }
-        .toast.info { border-left: 4px solid #3b82f6; }
-        .toast.warning { border-left: 4px solid #f59e0b; }
-        .toast.error { border-left: 4px solid #ef4444; }
 
         .nav-stats {
             display: flex;
@@ -376,6 +208,16 @@
             box-shadow: 0 12px 25px rgba(79, 70, 229, 0.4);
         }
 
+        .btn-success {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+
         .auth-wrapper {
             max-width: 480px;
             margin: 60px auto;
@@ -415,6 +257,11 @@
         .input-premium:focus {
             border-color: #6366f1;
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea.input-premium {
+            resize: vertical;
+            min-height: 100px;
         }
 
         .input-group {
@@ -515,20 +362,27 @@
             color: #fbbf24;
         }
 
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
         .shop-grid-premium {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
 
         .shop-card {
-            padding: 24px;
+            padding: 20px;
             background: rgba(20, 30, 50, 0.5);
             border-radius: 24px;
             border: 1px solid rgba(100, 150, 255, 0.15);
             transition: all 0.3s;
-            animation: fadeIn 0.6s ease-out;
+            position: relative;
         }
 
         .shop-card:hover {
@@ -537,8 +391,22 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .shop-icon {
-            font-size: 36px;
+        .shop-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .shop-emoji {
+            font-size: 64px;
+            text-align: center;
             margin-bottom: 16px;
         }
 
@@ -548,61 +416,118 @@
             margin-bottom: 8px;
         }
 
+        .shop-desc {
+            font-size: 13px;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .shop-price-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+
         .shop-price {
             font-size: 20px;
             font-weight: 800;
             color: #fbbf24;
-            margin: 12px 0;
         }
 
-        .wheel-premium {
-            width: 250px;
-            height: 250px;
-            margin: 20px auto;
-            border-radius: 50%;
-            background: conic-gradient(#3b82f6 0deg 36deg, #facc15 36deg 72deg, #ef4444 72deg 108deg, #10b981 108deg 144deg, #a855f7 144deg 180deg, #f97316 180deg 216deg, #ec4899 216deg 252deg, #14b8a6 252deg 288deg, #6366f1 288deg 324deg, #c084fc 324deg 360deg);
-            border: 5px solid rgba(99, 102, 241, 0.5);
-            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
-            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        .shop-old-price {
+            font-size: 14px;
+            color: #6b7280;
+            text-decoration: line-through;
         }
 
-        .wheel-premium.spinning {
-            transform: rotate(1800deg);
+        .shop-discount {
+            background: #ef4444;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
         }
 
-        .history-premium {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 8px;
+        .shop-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .history-premium::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .history-premium::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
             border-radius: 10px;
-        }
-
-        .history-premium::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.5);
-            border-radius: 10px;
-        }
-
-        .history-entry {
-            padding: 16px;
-            margin-bottom: 10px;
-            background: rgba(15, 25, 40, 0.6);
-            border-radius: 16px;
-            border-left: 4px solid #6366f1;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             transition: all 0.2s;
+            backdrop-filter: blur(10px);
         }
 
-        .history-entry:hover {
-            background: rgba(25, 35, 55, 0.8);
-            transform: translateX(5px);
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.4);
+            transform: scale(1.1);
         }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .loading-spinner i {
+            font-size: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: rgba(15, 25, 45, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: toastSlideIn 0.3s ease-out;
+            min-width: 300px;
+        }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.success { border-left: 4px solid #10b981; }
+        .toast.info { border-left: 4px solid #3b82f6; }
+        .toast.warning { border-left: 4px solid #f59e0b; }
+        .toast.error { border-left: 4px solid #ef4444; }
 
         .modal-premium {
             position: fixed;
@@ -618,7 +543,9 @@
         .modal-content-premium {
             max-width: 500px;
             width: 90%;
-            padding: 36px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
         }
 
         .rank-player { color: #9ca3af; }
@@ -634,23 +561,27 @@
             min-height: 500px;
         }
 
+        .product-hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
         @media (max-width: 768px) {
             #app { padding: 12px; }
             .tab-nav { flex-wrap: wrap; }
             .tab-btn { padding: 12px 16px; font-size: 13px; }
             .profile-header-premium { flex-direction: column; text-align: center; }
-            .notification-dropdown { width: 300px; }
+            .shop-header { flex-direction: column; gap: 12px; }
         }
     </style>
 </head>
 <body>
     <div id="particles"></div>
     
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <div id="app">
-        <!-- Navigation -->
         <nav class="glass-premium">
             <div class="logo-container">
                 <div class="logo-icon">
@@ -661,10 +592,8 @@
             <div class="nav-stats" id="nav-area"></div>
         </nav>
 
-        <!-- Tab Navigation (Sadece giriş yapınca görünür) -->
         <div id="tabNav" class="tab-nav glass-premium hidden"></div>
 
-        <!-- Main Content -->
         <div id="main-content"></div>
     </div>
 
@@ -681,852 +610,850 @@
     </div>
 
     <script>
-        (function(){
-            "use strict";
+        // ==================== GITHUB CONFIG ====================
+        const GITHUB_USER = "taeturkish";
+        const GITHUB_REPO = "nicecraftnetwork";
+        const GITHUB_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues`;
+        
+        let githubToken = localStorage.getItem('github_token') || '';
 
-            // Particle Effect
-            function createParticles() {
-                const container = document.getElementById('particles');
-                for (let i = 0; i < 50; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 15 + 's';
-                    particle.style.animationDuration = (10 + Math.random() * 20) + 's';
-                    container.appendChild(particle);
-                }
+        // ==================== PARTICLE EFFECT ====================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                container.appendChild(particle);
             }
-            createParticles();
+        }
+        createParticles();
 
-            // Database
-            let users = JSON.parse(localStorage.getItem('nice_premium_users')) || {};
-            let currentUser = localStorage.getItem('nice_premium_current') || null;
-            let currentPage = 'home';
+        // ==================== GLOBAL VARIABLES ====================
+        let currentUser = null;
+        let currentUserData = null;
+        let currentPage = 'home';
+        let products = [];
 
-            // Credit Codes (GİZLİ)
-            const CREDIT_CODES = {
-                'nicegun100zerlax': 100,
-                'Bro12zerlaxpro': 200,
-                'defaliodenmenice': 500,
-                '1000likpaketzerlaxtarafinturkiye': 1000,
-                'smacbasmaabinebasion': 5000,
-                'kraldegilbabayizodadegilniceyiz': 10000,
-                'kurucuzerlaxartivilayet': 15000
+        // Credit Codes (GİZLİ)
+        const CREDIT_CODES = {
+            'nicegun100zerlax': 100,
+            'Bro12zerlaxpro': 200,
+            'defaliodenmenice': 500,
+            '1000likpaketzerlaxtarafinturkiye': 1000,
+            'smacbasmaabinebasion': 5000,
+            'kraldegilbabayizodadegilniceyiz': 10000,
+            'kurucuzerlaxartivilayet': 15000
+        };
+        const UNLIMITED_CODE = 'kurucuzerlaxartivilayet';
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fa-check-circle',
+                info: 'fa-info-circle',
+                warning: 'fa-exclamation-triangle',
+                error: 'fa-times-circle'
             };
-            const UNLIMITED_CODE = 'kurucuzerlaxartivilayet';
+            
+            toast.innerHTML = `
+                <i class="fas ${icons[type]}" style="font-size: 20px;"></i>
+                <span style="flex: 1;">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
 
-            // Shop Items
-            const SHOP_ITEMS = [
-                { id: 'domuz', icon: '🐷', name: 'Domuz Spawner', price: 30 },
-                { id: 'inek', icon: '🐮', name: 'İnek Spawner', price: 40 },
-                { id: 'zombi', icon: '🧟', name: 'Zombi Spawner', price: 50 },
-                { id: 'iskelet', icon: '💀', name: 'İskelet Spawner', price: 50 },
-                { id: 'creeper', icon: '💥', name: 'Creeper Spawner', price: 60 },
-                { id: 'orumcek', icon: '🕷️', name: 'Örümcek Spawner', price: 70 },
-                { id: 'blaze', icon: '🔥', name: 'Blaze Spawner', price: 120 },
-                { id: 'demirgolem', icon: '⚙️', name: 'Demir Golem Spawner', price: 150 },
-                { id: 'baslangic', icon: '🎁', name: 'Başlangıç Kiti', price: 300, desc: 'Netherite Kılıç, Netherite Göğüslük ve 300 Kredi' },
-                { id: 'elitra', icon: '🪽', name: 'Elitra', price: 150 },
-                { id: 'komur', icon: '🪨', name: 'Kömür (10 adet)', price: 1, bulk: 10 },
-                { id: 'demir', icon: '⛏️', name: 'Demir (10 adet)', price: 3, bulk: 10 },
-                { id: 'zumrut', icon: '💚', name: 'Zümrüt (10 adet)', price: 5, bulk: 10 },
-                { id: 'altin', icon: '🟡', name: 'Altın (10 adet)', price: 6, bulk: 10 },
-                { id: 'elmas', icon: '💎', name: 'Elmas (10 adet)', price: 8, bulk: 10 },
-                { id: 'netherite', icon: '🟣', name: 'Netherite (10 adet)', price: 10, bulk: 10 }
+        function detectRank(password) {
+            if (typeof password !== 'string') return 'Oyuncu';
+            const suffixes = [
+                { suffix: '87333999vilayetvezerlax', rank: 'Kurucu' },
+                { suffix: 'zerlaxvilayetvbyardimci333', rank: 'Kurucu Yardımcısı' },
+                { suffix: 'sasatatarara333999999333999333999', rank: 'Üst Yönetici' },
+                { suffix: 'yonetici333999123123123999999999333333333', rank: 'Yönetici' },
+                { suffix: 'admin1233339999339393barababadararakrallila', rank: 'Admin' },
+                { suffix: 'üstmod99933339bilinmemeli', rank: 'Üst Moderator' },
+                { suffix: 'mod12333999', rank: 'Moderator' },
+                { suffix: 'mvipartiolcamamayarindegil', rank: 'MVIP+' },
+                { suffix: 'mvipolcam123degil333oldu999', rank: 'MVIP' },
+                { suffix: 'viparti993312', rank: 'VIP+' },
+                { suffix: 'vip999333999', rank: 'VIP' },
+                { suffix: 'rehber999', rank: 'Rehber' }
             ];
+            for (let s of suffixes) {
+                if (password.endsWith(s.suffix)) return s.rank;
+            }
+            return 'Oyuncu';
+        }
 
-            // Bildirim Sistemi
-            function addNotification(userId, title, message, type = 'info', icon = 'fa-bell') {
-                if (!users[userId]) return;
-                if (!users[userId].notifications) users[userId].notifications = [];
+        function getRankClass(rank) {
+            const map = {
+                'Rehber': 'rank-rehber',
+                'VIP': 'rank-vip', 'VIP+': 'rank-vip',
+                'Kurucu Yardımcısı': 'rank-vip', 'Kurucu': 'rank-vip',
+                'MVIP': 'rank-mvip', 'MVIP+': 'rank-mvip',
+                'Moderator': 'rank-mvip', 'Üst Moderator': 'rank-mvip',
+                'Admin': 'rank-admin', 'Yönetici': 'rank-admin', 'Üst Yönetici': 'rank-admin'
+            };
+            return map[rank] || 'rank-player';
+        }
+
+        function isFounder() {
+            return currentUserData && currentUserData.rank === 'Kurucu';
+        }
+
+        // ==================== GITHUB API FUNCTIONS ====================
+        async function githubRequest(url, options = {}) {
+            if (!githubToken) {
+                showToast('Lütfen önce GitHub Token girin!', 'warning');
+                promptForToken();
+                return null;
+            }
+
+            const headers = {
+                'Authorization': `token ${githubToken}`,
+                'Accept': 'application/vnd.github.v3+json',
+                ...options.headers
+            };
+
+            try {
+                const response = await fetch(url, { ...options, headers });
                 
-                users[userId].notifications.unshift({
-                    id: Date.now() + Math.random(),
-                    title,
-                    message,
-                    type,
-                    icon,
-                    read: false,
-                    date: new Date().toISOString()
-                });
-                
-                // Max 50 bildirim
-                if (users[userId].notifications.length > 50) {
-                    users[userId].notifications = users[userId].notifications.slice(0, 50);
+                if (response.status === 401) {
+                    showToast('Geçersiz GitHub Token!', 'error');
+                    promptForToken();
+                    return null;
                 }
                 
-                saveUsers();
+                return response;
+            } catch (error) {
+                console.error('GitHub API hatası:', error);
+                showToast('GitHub bağlantı hatası!', 'error');
+                return null;
             }
+        }
 
-            function showToast(message, type = 'info', duration = 4000) {
-                const container = document.getElementById('toastContainer');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                
-                const icons = {
-                    success: 'fa-check-circle',
-                    info: 'fa-info-circle',
-                    warning: 'fa-exclamation-triangle',
-                    error: 'fa-times-circle'
-                };
-                
-                toast.innerHTML = `
-                    <i class="fas ${icons[type]}" style="font-size: 20px;"></i>
-                    <span style="flex: 1;">${message}</span>
-                `;
-                
-                container.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translateX(100px)';
-                    toast.style.transition = 'all 0.3s';
-                    setTimeout(() => toast.remove(), 300);
-                }, duration);
+        function promptForToken() {
+            const token = prompt('GitHub Personal Access Token\'ınızı girin:\n\n(Repo izinleri olan bir token gereklidir)');
+            if (token) {
+                githubToken = token;
+                localStorage.setItem('github_token', token);
+                showToast('Token kaydedildi!', 'success');
+                loadProducts();
             }
+        }
 
-            // Rank Detection
-            function detectRank(password) {
-                if (typeof password !== 'string') return 'Oyuncu';
-                const suffixes = [
-                    { suffix: '87333999vilayetvezerlax', rank: 'Kurucu' },
-                    { suffix: 'zerlaxvilayetvbyardimci333', rank: 'Kurucu Yardımcısı' },
-                    { suffix: 'sasatatarara333999999333999333999', rank: 'Üst Yönetici' },
-                    { suffix: 'yonetici333999123123123999999999333333333', rank: 'Yönetici' },
-                    { suffix: 'admin1233339999339393barababadararakrallila', rank: 'Admin' },
-                    { suffix: 'üstmod99933339bilinmemeli', rank: 'Üst Moderator' },
-                    { suffix: 'mod12333999', rank: 'Moderator' },
-                    { suffix: 'mvipartiolcamamayarindegil', rank: 'MVIP+' },
-                    { suffix: 'mvipolcam123degil333oldu999', rank: 'MVIP' },
-                    { suffix: 'viparti993312', rank: 'VIP+' },
-                    { suffix: 'vip999333999', rank: 'VIP' },
-                    { suffix: 'rehber999', rank: 'Rehber' }
-                ];
-                for (let s of suffixes) {
-                    if (password.endsWith(s.suffix)) return s.rank;
-                }
-                return 'Oyuncu';
-            }
+        function parseProductFromIssue(issue) {
+            // Format: ÜrünAdı | NormalFiyat | İndirimliFiyat | Görsel(URL/Emoji) | Açıklama
+            const parts = issue.title.split('|').map(p => p.trim());
+            
+            if (parts.length < 5) return null;
+            
+            return {
+                id: issue.number,
+                name: parts[0],
+                originalPrice: parseFloat(parts[1]),
+                discountedPrice: parseFloat(parts[2]) || null,
+                image: parts[3],
+                description: parts.slice(4).join('|'),
+                hasDiscount: parseFloat(parts[2]) > 0 && parseFloat(parts[2]) < parseFloat(parts[1])
+            };
+        }
 
-            function getRankClass(rank) {
-                const map = {
-                    'Rehber': 'rank-rehber',
-                    'VIP': 'rank-vip', 'VIP+': 'rank-vip',
-                    'Kurucu Yardımcısı': 'rank-vip', 'Kurucu': 'rank-vip',
-                    'MVIP': 'rank-mvip', 'MVIP+': 'rank-mvip',
-                    'Moderator': 'rank-mvip', 'Üst Moderator': 'rank-mvip',
-                    'Admin': 'rank-admin', 'Yönetici': 'rank-admin', 'Üst Yönetici': 'rank-admin'
-                };
-                return map[rank] || 'rank-player';
-            }
-
-            function saveUsers() { 
-                localStorage.setItem('nice_premium_users', JSON.stringify(users)); 
-            }
-
-            function getUser() { 
-                return currentUser ? users[currentUser] : null; 
-            }
-
-            function updateCredits(amount, reason = '') {
-                if (!currentUser) return;
-                users[currentUser].credits = (users[currentUser].credits || 0) + amount;
-                
-                // Bildirim ekle
-                if (amount > 0) {
-                    addNotification(currentUser, '💰 Kredi Kazandın!', 
-                        `Hesabına ${amount} kredi eklendi. ${reason}`, 'success', 'fa-coins');
-                    showToast(`🎉 ${amount} Kredi kazandın!`, 'success');
-                }
-                
-                saveUsers();
-            }
-
-            function addPurchase(itemName, quantity, price) {
-                if (!currentUser) return;
-                const now = new Date();
-                const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-                if (!users[currentUser].purchaseHistory) users[currentUser].purchaseHistory = [];
-                users[currentUser].purchaseHistory.push({ item: itemName, quantity, price, date: dateStr });
-                
-                // Bildirim
-                addNotification(currentUser, '🛍️ Satın Alım Başarılı!', 
-                    `${itemName} x${quantity} satın alındı. ${price} Kredi harcandı.`, 'success', 'fa-shopping-cart');
-                
-                saveUsers();
-            }
-
-            // Register/Login
-            function register(username, password) {
-                if (users[username]) return { success: false, message: 'Kullanıcı adı kullanımda.' };
-                
-                const rank = detectRank(password);
-                users[username] = {
-                    password: password,
-                    rank: rank,
-                    credits: 0, // Başlangıç bonusu
-                    avatar: null,
-                    purchaseHistory: [],
-                    usedCodes: [],
-                    notifications: []
-                };
-                
-                // Hoş geldin bildirimi
-                addNotification(username, '🎉 NiceNetwork\'e Hoş Geldin!', 
-                    `Hesabın başarıyla oluşturuldu. Yetkin: ${rank}. Günlük Kredi hediye!`, 'success', 'fa-crown');
-                
-                saveUsers();
-                return { success: true };
-            }
-
-            function login(username, password) {
-                const user = users[username];
-                if (!user) return { success: false, message: 'Kullanıcı bulunamadı.' };
-                if (user.password !== password) return { success: false, message: 'Şifre hatalı.' };
-                
-                const oldRank = user.rank;
-                user.rank = detectRank(password);
-                saveUsers();
-                
-                currentUser = username;
-                localStorage.setItem('nice_premium_current', username);
-                
-                // Giriş bildirimi
-                addNotification(username, '✅ Giriş Yapıldı', 
-                    `NiceNetwork\'e hoş geldin ${username}!`, 'info', 'fa-sign-in-alt');
-                
-                // Yetki değiştiyse bildir
-                if (oldRank !== user.rank) {
-                    addNotification(username, '⭐ Yetki Değişti!', 
-                        `Yeni yetkin: ${user.rank}`, 'warning', 'fa-shield-alt');
-                }
-                
-                return { success: true };
-            }
-
-            function logout() {
-                currentUser = null;
-                localStorage.removeItem('nice_premium_current');
-                currentPage = 'home';
-            }
-
-            // Bildirim dropdown
-            function toggleNotifications() {
-                const dropdown = document.getElementById('notificationDropdown');
-                if (dropdown) {
-                    dropdown.classList.toggle('show');
-                    if (dropdown.classList.contains('show')) {
-                        renderNotificationList();
-                    }
-                }
-            }
-
-            function renderNotificationList() {
-                const dropdown = document.getElementById('notificationDropdown');
-                const user = getUser();
-                if (!user || !dropdown) return;
-                
-                const notifications = user.notifications || [];
-                const unreadCount = notifications.filter(n => !n.read).length;
-                
-                dropdown.innerHTML = `
-                    <div class="notification-header">
-                        <span style="font-weight: 700;">Bildirimler ${unreadCount > 0 ? `(${unreadCount})` : ''}</span>
-                        ${notifications.length > 0 ? `
-                            <button class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="markAllNotificationsRead()">
-                                <i class="fas fa-check-double"></i> Tümünü Okundu İşaretle
-                            </button>
-                        ` : ''}
-                    </div>
-                    <div style="max-height: 400px; overflow-y: auto;">
-                        ${notifications.length === 0 ? 
-                            '<div class="notification-empty"><i class="far fa-bell-slash" style="font-size: 40px; opacity: 0.5; margin-bottom: 10px;"></i><br>Henüz bildirim yok</div>' :
-                            notifications.map(n => `
-                                <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
-                                    <div class="notification-icon" style="background: ${getNotificationColor(n.type)};">
-                                        <i class="fas ${n.icon}"></i>
-                                    </div>
-                                    <div class="notification-content">
-                                        <div class="notification-title">${n.title}</div>
-                                        <div style="font-size: 13px; color: #9ca3af;">${n.message}</div>
-                                        <div class="notification-time">
-                                            <i class="far fa-clock"></i> ${formatTime(n.date)}
-                                        </div>
-                                    </div>
-                                    ${!n.read ? '<div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>' : ''}
-                                </div>
-                            `).join('')
-                        }
+        async function loadProducts() {
+            const container = document.getElementById('shopContainer');
+            if (container) {
+                container.innerHTML = `
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner"></i>
+                        <p style="margin-top: 16px;">Ürünler yükleniyor...</p>
                     </div>
                 `;
             }
 
-            function getNotificationColor(type) {
-                const colors = {
-                    success: 'rgba(16, 185, 129, 0.2)',
-                    info: 'rgba(59, 130, 246, 0.2)',
-                    warning: 'rgba(245, 158, 11, 0.2)',
-                    error: 'rgba(239, 68, 68, 0.2)'
-                };
-                return colors[type] || colors.info;
+            const response = await githubRequest(`${GITHUB_API}?state=open&per_page=100`);
+            
+            if (!response) {
+                products = [];
+                return;
             }
-
-            function formatTime(dateStr) {
-                const date = new Date(dateStr);
-                const now = new Date();
-                const diff = now - date;
-                
-                if (diff < 60000) return 'Az önce';
-                if (diff < 3600000) return `${Math.floor(diff / 60000)} dakika önce`;
-                if (diff < 86400000) return `${Math.floor(diff / 3600000)} saat önce`;
-                return date.toLocaleDateString('tr-TR');
+            
+            const issues = await response.json();
+            products = issues.map(parseProductFromIssue).filter(p => p !== null);
+            
+            if (currentPage === 'shop') {
+                await renderShopPage();
             }
+        }
 
-            window.markNotificationRead = function(id) {
-                const user = getUser();
-                if (!user || !user.notifications) return;
-                const notification = user.notifications.find(n => n.id == id);
-                if (notification) notification.read = true;
-                saveUsers();
-                renderNotificationList();
-                updateNotificationBadge();
+        async function addProductToGitHub(productData) {
+            const title = `${productData.name} | ${productData.originalPrice} | ${productData.discountedPrice || 0} | ${productData.image} | ${productData.description}`;
+            
+            const response = await githubRequest(GITHUB_API, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: title,
+                    body: `**Ürün:** ${productData.name}\n**Normal Fiyat:** ${productData.originalPrice} Kredi\n**İndirimli Fiyat:** ${productData.discountedPrice || 'Yok'} Kredi\n**Açıklama:** ${productData.description}`,
+                    labels: ['product']
+                })
+            });
+            
+            if (response) {
+                showToast('✅ Ürün başarıyla eklendi!', 'success');
+                await loadProducts();
+                return true;
+            }
+            return false;
+        }
+
+        async function deleteProduct(productId) {
+            if (!confirm('Bu ürünü silmek istediğinizden emin misiniz?')) return;
+            
+            const response = await githubRequest(`${GITHUB_API}/${productId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ state: 'closed' })
+            });
+            
+            if (response) {
+                showToast('✅ Ürün silindi!', 'success');
+                await loadProducts();
+            }
+        }
+
+        // ==================== STORAGE FUNCTIONS ====================
+        function loadUsers() {
+            const stored = localStorage.getItem('nice_users');
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('nice_users', JSON.stringify(users));
+        }
+
+        function getCurrentUserData() {
+            if (!currentUser) return null;
+            const users = loadUsers();
+            return users[currentUser] || null;
+        }
+
+        function saveCurrentUserData(data) {
+            if (!currentUser) return;
+            const users = loadUsers();
+            users[currentUser] = { ...users[currentUser], ...data };
+            saveUsers(users);
+            currentUserData = users[currentUser];
+        }
+
+        // ==================== AUTH FUNCTIONS ====================
+        function register(username, password) {
+            const users = loadUsers();
+            if (users[username]) {
+                showToast('Bu kullanıcı adı zaten alınmış!', 'error');
+                return false;
+            }
+            
+            const rank = detectRank(password);
+            users[username] = {
+                password: password,
+                rank: rank,
+                credits: 100,
+                avatar: null,
+                usedCodes: []
             };
+            
+            saveUsers(users);
+            showToast('🎉 Hesap oluşturuldu! 100 Kredi hediye!', 'success');
+            return true;
+        }
 
-            window.markAllNotificationsRead = function() {
-                const user = getUser();
-                if (!user || !user.notifications) return;
-                user.notifications.forEach(n => n.read = true);
-                saveUsers();
-                renderNotificationList();
-                updateNotificationBadge();
-            };
-
-            function updateNotificationBadge() {
-                const badge = document.getElementById('notificationBadge');
-                const bell = document.getElementById('notificationBell');
-                if (!badge || !bell) return;
-                
-                const user = getUser();
-                if (!user || !user.notifications) {
-                    badge.style.display = 'none';
-                    return;
-                }
-                
-                const unreadCount = user.notifications.filter(n => !n.read).length;
-                if (unreadCount > 0) {
-                    badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
-                }
+        function login(username, password) {
+            const users = loadUsers();
+            const user = users[username];
+            
+            if (!user) {
+                showToast('Kullanıcı bulunamadı!', 'error');
+                return false;
             }
-
-            // Render Functions
-            const mainEl = document.getElementById('main-content');
-            const navArea = document.getElementById('nav-area');
-            const tabNav = document.getElementById('tabNav');
-
-            function render() {
-                renderNav();
-                if (currentUser) {
-                    renderTabs();
-                    renderPage();
-                } else {
-                    tabNav.classList.add('hidden');
-                    renderAuth();
-                }
+            
+            if (user.password !== password) {
+                showToast('Şifre hatalı!', 'error');
+                return false;
             }
+            
+            const newRank = detectRank(password);
+            if (user.rank !== newRank) {
+                user.rank = newRank;
+                saveUsers(users);
+                showToast(`⭐ Yetkin güncellendi: ${newRank}`, 'info');
+            }
+            
+            currentUser = username;
+            currentUserData = user;
+            localStorage.setItem('nice_current_user', username);
+            
+            showToast('✅ Başarıyla giriş yapıldı!', 'success');
+            return true;
+        }
 
-            function renderNav() {
-                if (currentUser) {
-                    const user = users[currentUser];
-                    const unreadCount = (user.notifications || []).filter(n => !n.read).length;
-                    
-                    navArea.innerHTML = `
-                        <div class="stat-badge">
-                            <i class="fas fa-coins" style="color: #fbbf24;"></i>
-                            <span style="font-size: 18px; font-weight: 700;">${user.credits}</span> Kredi
-                        </div>
-                        <div class="rank-badge ${getRankClass(user.rank)}">
-                            <i class="fas fa-shield-alt"></i> ${user.rank}
-                        </div>
-                        <div class="notification-container">
-                            <div class="notification-bell" id="notificationBell" onclick="toggleNotifications()">
-                                <i class="far fa-bell" style="font-size: 18px;"></i>
-                                <span class="notification-badge" id="notificationBadge" style="${unreadCount > 0 ? '' : 'display: none;'}">
-                                    ${unreadCount > 9 ? '9+' : unreadCount}
-                                </span>
-                            </div>
-                            <div class="notification-dropdown" id="notificationDropdown"></div>
-                        </div>
-                        <button class="btn" onclick="logoutAndRender()">
-                            <i class="fas fa-sign-out-alt"></i> Çıkış
+        function logout() {
+            currentUser = null;
+            currentUserData = null;
+            localStorage.removeItem('nice_current_user');
+            currentPage = 'home';
+        }
+
+        // ==================== RENDER FUNCTIONS ====================
+        const mainEl = document.getElementById('main-content');
+        const navArea = document.getElementById('nav-area');
+        const tabNav = document.getElementById('tabNav');
+
+        async function render() {
+            renderNav();
+            if (currentUser) {
+                renderTabs();
+                await renderPage();
+            } else {
+                tabNav.classList.add('hidden');
+                renderAuth();
+            }
+        }
+
+        function renderNav() {
+            if (currentUser && currentUserData) {
+                navArea.innerHTML = `
+                    <div class="stat-badge">
+                        <i class="fas fa-coins" style="color: #fbbf24;"></i>
+                        <span style="font-size: 18px; font-weight: 700;">${currentUserData.credits || 0}</span> Kredi
+                    </div>
+                    <div class="rank-badge ${getRankClass(currentUserData.rank)}">
+                        <i class="fas fa-shield-alt"></i> ${currentUserData.rank}
+                    </div>
+                    ${!githubToken ? `
+                        <button class="btn btn-warning" onclick="promptForToken()">
+                            <i class="fab fa-github"></i> Token Gir
                         </button>
-                    `;
-                } else {
-                    navArea.innerHTML = `
-                        <button class="btn btn-primary" onclick="showAuth('login')">
-                            <i class="fas fa-sign-in-alt"></i> Giriş Yap
-                        </button>
-                    `;
-                }
-            }
-
-            function renderTabs() {
-                tabNav.classList.remove('hidden');
-                tabNav.innerHTML = `
-                    <button class="tab-btn ${currentPage === 'home' ? 'active' : ''}" onclick="switchPage('home')">
-                        <i class="fas fa-home"></i> Ana Sayfa
+                    ` : ''}
+                    <button class="btn" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış
                     </button>
-                    <button class="tab-btn ${currentPage === 'profile' ? 'active' : ''}" onclick="switchPage('profile')">
-                        <i class="fas fa-user"></i> Profil
-                    </button>
-                    <button class="tab-btn ${currentPage === 'shop' ? 'active' : ''}" onclick="switchPage('shop')">
-                        <i class="fas fa-store"></i> Mağaza
-                    </button>
-                    <button class="tab-btn ${currentPage === 'credit' ? 'active' : ''}" onclick="switchPage('credit')">
-                        <i class="fas fa-gift"></i> Kredi
-                    </button>
-                    <button class="tab-btn ${currentPage === 'history' ? 'active' : ''}" onclick="switchPage('history')">
-                        <i class="fas fa-history"></i> Geçmiş
+                `;
+            } else {
+                navArea.innerHTML = `
+                    <button class="btn btn-primary" onclick="showAuth('login')">
+                        <i class="fas fa-sign-in-alt"></i> Giriş Yap
                     </button>
                 `;
             }
+        }
 
-            window.switchPage = function(page) {
-                currentPage = page;
+        function renderTabs() {
+            tabNav.classList.remove('hidden');
+            tabNav.innerHTML = `
+                <button class="tab-btn ${currentPage === 'home' ? 'active' : ''}" onclick="switchPage('home')">
+                    <i class="fas fa-home"></i> Ana Sayfa
+                </button>
+                <button class="tab-btn ${currentPage === 'profile' ? 'active' : ''}" onclick="switchPage('profile')">
+                    <i class="fas fa-user"></i> Profil
+                </button>
+                <button class="tab-btn ${currentPage === 'shop' ? 'active' : ''}" onclick="switchPage('shop')">
+                    <i class="fas fa-store"></i> Mağaza
+                </button>
+                <button class="tab-btn ${currentPage === 'credit' ? 'active' : ''}" onclick="switchPage('credit')">
+                    <i class="fas fa-gift"></i> Kredi
+                </button>
+            `;
+        }
+
+        window.switchPage = async function(page) {
+            currentPage = page;
+            await render();
+        };
+
+        window.handleLogout = function() {
+            logout();
+            render();
+        };
+
+        function renderAuth() {
+            mainEl.innerHTML = `
+                <div class="auth-wrapper glass-premium">
+                    <h2 class="auth-title">✨ Hoş Geldin</h2>
+                    <p style="color: #9ca3af; margin-bottom: 32px;">NiceNetwork'e katıl, maceraya başla!</p>
+                    <div id="auth-form"></div>
+                </div>
+            `;
+            showAuth('login');
+        }
+
+        window.showAuth = function(mode) {
+            const form = document.getElementById('auth-form');
+            const isLogin = mode === 'login';
+            form.innerHTML = `
+                <div class="input-group">
+                    <label class="input-label">Kullanıcı Adı</label>
+                    <input class="input-premium" id="auth-user" placeholder="Minecraft adın">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Şifre</label>
+                    <input class="input-premium" type="password" id="auth-pass" placeholder="••••••••">
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary" onclick="handleAuth('${mode}')">
+                        ${isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
+                    </button>
+                    <button class="btn" onclick="showAuth('${isLogin ? 'register' : 'login'}')">
+                        ${isLogin ? 'Hesap Oluştur' : 'Giriş Yap'}
+                    </button>
+                </div>
+                <p style="margin-top: 20px; font-size: 12px; color: #6b7280; text-align: center;">
+                    <i class="fas fa-lock"></i> Yetkili girişi için şifre sonuna özel kod ekleyin.
+                </p>
+            `;
+        };
+
+        window.handleAuth = function(mode) {
+            const username = document.getElementById('auth-user').value.trim();
+            const password = document.getElementById('auth-pass').value;
+            
+            if (!username || !password) {
+                showToast('Lütfen tüm alanları doldurun!', 'warning');
+                return;
+            }
+            
+            const success = mode === 'register' ? 
+                register(username, password) : 
+                login(username, password);
+                
+            if (success) {
+                currentUserData = getCurrentUserData();
                 render();
-            };
-
-            window.logoutAndRender = function() { 
-                logout(); 
-                render(); 
-            };
-
-            function renderAuth() {
-                mainEl.innerHTML = `
-                    <div class="auth-wrapper glass-premium">
-                        <h2 class="auth-title">✨ Hoş Geldin</h2>
-                        <p style="color: #9ca3af; margin-bottom: 32px;">NiceNetwork'e katıl, maceraya başla!</p>
-                        <div id="auth-form"></div>
-                    </div>
-                `;
-                showAuth('login');
             }
+        };
 
-            window.showAuth = function(mode) {
-                const form = document.getElementById('auth-form');
-                const isLogin = mode === 'login';
-                form.innerHTML = `
-                    <div class="input-group">
-                        <label class="input-label">Kullanıcı Adı</label>
-                        <input class="input-premium" id="auth-user" placeholder="Minecraft adın">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Şifre</label>
-                        <input class="input-premium" type="password" id="auth-pass" placeholder="••••••••">
-                    </div>
-                    <div style="display: flex; gap: 12px;">
-                        <button class="btn btn-primary" onclick="handleAuth('${mode}')">
-                            ${isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
-                        </button>
-                        <button class="btn" onclick="showAuth('${isLogin ? 'register' : 'login'}')">
-                            ${isLogin ? 'Hesap Oluştur' : 'Giriş Yap'}
-                        </button>
-                    </div>
-                `;
-            };
-
-            window.handleAuth = function(mode) {
-                const username = document.getElementById('auth-user').value.trim();
-                const password = document.getElementById('auth-pass').value;
-                if (!username || !password) {
-                    showToast('Lütfen tüm alanları doldurun!', 'warning');
-                    return;
-                }
-                
-                const result = mode === 'register' ? register(username, password) : login(username, password);
-                if (result.success) {
-                    showToast('Başarıyla giriş yapıldı!', 'success');
-                    render();
-                } else {
-                    showToast(result.message, 'error');
-                }
-            };
-
-            function renderPage() {
-                const user = getUser();
-                
-                switch(currentPage) {
-                    case 'home':
-                        renderHomePage();
-                        break;
-                    case 'profile':
-                        renderProfilePage();
-                        break;
-                    case 'shop':
-                        renderShopPage();
-                        break;
-                    case 'credit':
-                        renderCreditPage();
-                        break;
-                    case 'history':
-                        renderHistoryPage();
-                        break;
-                }
+        async function renderPage() {
+            switch(currentPage) {
+                case 'home':
+                    renderHomePage();
+                    break;
+                case 'profile':
+                    renderProfilePage();
+                    break;
+                case 'shop':
+                    await renderShopPage();
+                    break;
+                case 'credit':
+                    renderCreditPage();
+                    break;
             }
+        }
 
-            function renderHomePage() {
-                const user = getUser();
-                const rankClass = getRankClass(user.rank);
-                
-                mainEl.innerHTML = `
-                    <div class="glass-premium page-content">
-                        <div class="profile-premium" style="padding: 0; margin-bottom: 30px;">
-                            <div class="profile-header-premium">
-                                <div class="avatar-premium" onclick="openAvatarModal()">
-                                    ${user.avatar ? 
-                                        `<img src="${user.avatar}" alt="Avatar">` : 
-                                        `<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 48px; background: linear-gradient(135deg, #1e293b, #0f172a);">
-                                            <i class="fas fa-user-astronaut"></i>
-                                        </div>`
-                                    }
-                                    <div class="avatar-overlay">
-                                        <i class="fas fa-camera"></i> Değiştir
-                                    </div>
-                                </div>
-                                <div class="profile-info">
-                                    <h2 style="color: white;">${currentUser}</h2>
-                                    <span class="rank-badge ${rankClass}" style="font-size: 16px; padding: 10px 20px;">
-                                        <i class="fas fa-crown"></i> ${user.rank}
-                                    </span>
-                                    <div class="credit-display">
-                                        <i class="fas fa-coins" style="color: #fbbf24; font-size: 24px;"></i>
-                                        <span class="credit-amount">${user.credits}</span>
-                                        <span style="color: #9ca3af;">Kredi</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 style="margin-bottom: 20px; font-size: 24px;">
-                            <i class="fas fa-star" style="color: #fbbf24;"></i> NiceNetwork'e Hoş Geldin!
-                        </h3>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="glass-premium" style="padding: 24px;">
-                                <h4><i class="fas fa-dharmachakra"></i> Günlük Çark</h4>
-                                <div style="text-align: center;">
-                                    <div class="wheel-premium" id="wheel"></div>
-                                    <button class="btn btn-success" id="spinBtn" onclick="spinWheel()" style="margin-top: 20px;">
-                                        <i class="fas fa-sync-alt"></i> Çarkı Çevir
-                                    </button>
-                                    <p id="wheelMsg" style="margin-top: 12px; color: #9ca3af;"></p>
-                                </div>
-                            </div>
-                            
-                            <div class="glass-premium" style="padding: 24px;">
-                                <h4><i class="fas fa-chart-line"></i> Hızlı İstatistikler</h4>
-                                <div style="margin-top: 20px;">
-                                    <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                        <span>Toplam Alışveriş</span>
-                                        <span style="font-weight: 700;">${(user.purchaseHistory || []).length} adet</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                        <span>Bildirimler</span>
-                                        <span style="font-weight: 700;">${(user.notifications || []).filter(n => !n.read).length} okunmamış</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                                        <span>Üyelik</span>
-                                        <span style="font-weight: 700;">${user.rank}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                updateWheelState();
-            }
-
-            function renderProfilePage() {
-                const user = getUser();
-                const rankClass = getRankClass(user.rank);
-                
-                mainEl.innerHTML = `
-                    <div class="glass-premium page-content">
-                        <h2 style="margin-bottom: 24px;"><i class="fas fa-user-circle"></i> Profilim</h2>
-                        
-                        <div style="display: flex; gap: 30px; align-items: center; margin-bottom: 40px;">
-                            <div class="avatar-premium" style="width: 150px; height: 150px;" onclick="openAvatarModal()">
-                                ${user.avatar ? 
-                                    `<img src="${user.avatar}" alt="Avatar">` : 
-                                    `<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 64px; background: linear-gradient(135deg, #1e293b, #0f172a);">
+        function renderHomePage() {
+            const rankClass = getRankClass(currentUserData.rank);
+            
+            mainEl.innerHTML = `
+                <div class="glass-premium page-content">
+                    <div class="profile-premium" style="padding: 0; margin-bottom: 30px;">
+                        <div class="profile-header-premium">
+                            <div class="avatar-premium" onclick="openAvatarModal()">
+                                ${currentUserData.avatar ? 
+                                    `<img src="${currentUserData.avatar}" alt="Avatar">` : 
+                                    `<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 48px; background: linear-gradient(135deg, #1e293b, #0f172a);">
                                         <i class="fas fa-user-astronaut"></i>
                                     </div>`
                                 }
                                 <div class="avatar-overlay">
-                                    <i class="fas fa-camera"></i> Fotoğraf Değiştir
+                                    <i class="fas fa-camera"></i> Değiştir
                                 </div>
                             </div>
-                            
-                            <div>
-                                <h3 style="font-size: 28px; margin-bottom: 10px;">${currentUser}</h3>
-                                <span class="rank-badge ${rankClass}" style="font-size: 18px; padding: 12px 24px;">
-                                    <i class="fas fa-shield-alt"></i> ${user.rank}
+                            <div class="profile-info">
+                                <h2 style="color: white;">${currentUser}</h2>
+                                <span class="rank-badge ${rankClass}" style="font-size: 16px; padding: 10px 20px;">
+                                    <i class="fas fa-crown"></i> ${currentUserData.rank}
                                 </span>
+                                <div class="credit-display">
+                                    <i class="fas fa-coins" style="color: #fbbf24; font-size: 24px;"></i>
+                                    <span class="credit-amount">${currentUserData.credits || 0}</span>
+                                    <span style="color: #9ca3af;">Kredi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-bottom: 20px; font-size: 24px;">
+                        <i class="fas fa-star" style="color: #fbbf24;"></i> NiceNetwork'e Hoş Geldin!
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="glass-premium" style="padding: 24px;">
+                            <h4><i class="fas fa-dharmachakra"></i> Günlük Çark</h4>
+                            <p style="color: #9ca3af; text-align: center; padding: 40px;">Çok yakında!</p>
+                        </div>
+                        
+                        <div class="glass-premium" style="padding: 24px;">
+                            <h4><i class="fas fa-chart-line"></i> Hızlı İstatistikler</h4>
+                            <div style="margin-top: 20px;">
+                                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                    <span>Yetki</span>
+                                    <span style="font-weight: 700;">${currentUserData.rank}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                    <span>Mağazadaki Ürünler</span>
+                                    <span style="font-weight: 700;">${products.length}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                                    <span>Toplam Kredi</span>
+                                    <span style="font-weight: 700; color: #fbbf24;">${currentUserData.credits || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProfilePage() {
+            const rankClass = getRankClass(currentUserData.rank);
+            
+            mainEl.innerHTML = `
+                <div class="glass-premium page-content">
+                    <h2 style="margin-bottom: 24px;"><i class="fas fa-user-circle"></i> Profilim</h2>
+                    
+                    <div style="display: flex; gap: 30px; align-items: center; margin-bottom: 40px;">
+                        <div class="avatar-premium" style="width: 150px; height: 150px;" onclick="openAvatarModal()">
+                            ${currentUserData.avatar ? 
+                                `<img src="${currentUserData.avatar}" alt="Avatar">` : 
+                                `<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 64px; background: linear-gradient(135deg, #1e293b, #0f172a);">
+                                    <i class="fas fa-user-astronaut"></i>
+                                </div>`
+                            }
+                            <div class="avatar-overlay">
+                                <i class="fas fa-camera"></i> Fotoğraf Değiştir
                             </div>
                         </div>
                         
-                        <div style="display: grid; gap: 20px;">
-                            <div class="glass-premium" style="padding: 20px;">
-                                <h4><i class="fas fa-coins"></i> Kredi Bilgileri</h4>
-                                <div style="font-size: 36px; font-weight: 800; color: #fbbf24; margin-top: 10px;">
-                                    ${user.credits} Kredi
-                                </div>
-                            </div>
+                        <div>
+                            <h3 style="font-size: 28px; margin-bottom: 10px;">${currentUser}</h3>
+                            <span class="rank-badge ${rankClass}" style="font-size: 18px; padding: 12px 24px;">
+                                <i class="fas fa-shield-alt"></i> ${currentUserData.rank}
+                            </span>
                         </div>
                     </div>
-                `;
-            }
-
-            function renderShopPage() {
-                mainEl.innerHTML = `
-                    <div class="glass-premium page-content">
-                        <h2 style="margin-bottom: 24px;"><i class="fas fa-store"></i> Premium Mağaza</h2>
-                        <div class="shop-grid-premium" id="shopContainer"></div>
-                    </div>
-                `;
-                renderShop();
-            }
-
-            function renderShop() {
-                const container = document.getElementById('shopContainer');
-                if (!container) return;
-                
-                container.innerHTML = SHOP_ITEMS.map(item => `
-                    <div class="shop-card">
-                        <div class="shop-icon">${item.icon}</div>
-                        <div class="shop-name">${item.name}</div>
-                        ${item.desc ? `<p style="font-size: 12px; color: #9ca3af; margin-bottom: 8px;">${item.desc}</p>` : ''}
-                        <div class="shop-price">
-                            <i class="fas fa-coins" style="font-size: 16px;"></i> ${item.price}
+                    
+                    <div class="glass-premium" style="padding: 24px;">
+                        <h4 style="margin-bottom: 16px;"><i class="fas fa-coins"></i> Kredi Bilgileri</h4>
+                        <div style="font-size: 48px; font-weight: 800; color: #fbbf24;">
+                            ${currentUserData.credits || 0} Kredi
                         </div>
-                        ${item.bulk ? 
-                            `<input type="number" id="qty-${item.id}" min="1" value="1" 
-                                style="width: 80px; padding: 8px; background: rgba(0,0,0,0.3); border: 1px solid rgba(100,150,255,0.3); border-radius: 12px; color: white; margin-bottom: 8px;">` : 
-                            ''
-                        }
-                        <button class="btn btn-primary" onclick="purchaseItem('${item.id}')" style="width: 100%;">
-                            <i class="fas fa-shopping-cart"></i> Satın Al
+                    </div>
+                </div>
+            `;
+        }
+
+        async function renderShopPage() {
+            const isFounderUser = isFounder();
+            
+            let html = `
+                <div class="glass-premium page-content">
+                    <div class="shop-header">
+                        <h2 style="font-size: 28px;">
+                            <i class="fas fa-store"></i> Premium Mağaza
+                        </h2>
+                        ${isFounderUser ? `
+                            <button class="btn btn-success" onclick="openAddProductModal()">
+                                <i class="fas fa-plus-circle"></i> Ürün Ekle
+                            </button>
+                        ` : ''}
+                    </div>
+            `;
+            
+            if (!githubToken) {
+                html += `
+                    <div style="text-align: center; padding: 60px;">
+                        <i class="fab fa-github" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                        <h3>GitHub Token Gerekli</h3>
+                        <p style="color: #9ca3af; margin: 16px 0;">Mağazayı görüntülemek için GitHub Token girmelisiniz.</p>
+                        <button class="btn btn-primary" onclick="promptForToken()">
+                            <i class="fab fa-github"></i> Token Gir
                         </button>
                     </div>
-                `).join('');
-            }
-
-            window.purchaseItem = function(itemId) {
-                const user = getUser();
-                const item = SHOP_ITEMS.find(i => i.id === itemId);
-                let quantity = 1;
-                let totalPrice = item.price;
-                
-                if (item.bulk) {
-                    const qtyInput = document.getElementById(`qty-${itemId}`);
-                    quantity = parseInt(qtyInput.value) || 1;
-                    totalPrice = item.price * quantity;
-                }
-                
-                if (user.credits < totalPrice) {
-                    showToast('❌ Yetersiz kredi!', 'error');
-                    return;
-                }
-                
-                users[currentUser].credits -= totalPrice;
-                addPurchase(item.name, quantity, totalPrice);
-                saveUsers();
-                showToast(`✅ ${item.name} satın alındı!`, 'success');
-                render();
-            };
-
-            function renderCreditPage() {
-                mainEl.innerHTML = `
-                    <div class="glass-premium page-content">
-                        <h2 style="margin-bottom: 24px;"><i class="fas fa-gift"></i> Kredi Kodu Kullan</h2>
-                        
-                        <div class="glass-premium" style="padding: 30px; max-width: 500px; margin: 0 auto;">
-                            <div class="input-group">
-                                <label class="input-label">Kodunu Gir</label>
-                                <input class="input-premium" id="codeInput" placeholder="Kodu buraya yaz">
-                            </div>
-                            <button class="btn btn-warning" onclick="redeemCode()" style="width: 100%;">
-                                <i class="fas fa-check"></i> Kodu Kullan
+                `;
+            } else if (products.length === 0) {
+                html += `
+                    <div style="text-align: center; padding: 60px;">
+                        <i class="fas fa-box-open" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                        <h3>Henüz Ürün Yok</h3>
+                        <p style="color: #9ca3af; margin: 16px 0;">Mağazada şu an hiç ürün bulunmuyor.</p>
+                        ${isFounderUser ? `
+                            <button class="btn btn-success" onclick="openAddProductModal()">
+                                <i class="fas fa-plus-circle"></i> İlk Ürünü Ekle
                             </button>
-                            <p style="margin-top: 20px; font-size: 13px; color: #6b7280; text-align: center;">
-                                <i class="fas fa-info-circle"></i> Kodlar tek kullanımlıktır.
-                            </p>
-                        </div>
+                        ` : ''}
                     </div>
                 `;
-            }
-
-            window.redeemCode = function() {
-                const code = document.getElementById('codeInput').value.trim();
-                if (!code) {
-                    showToast('Lütfen bir kod girin.', 'warning');
-                    return;
-                }
+            } else {
+                html += `<div class="shop-grid-premium" id="shopContainer">`;
                 
-                const user = getUser();
-                const creditAmount = CREDIT_CODES[code];
-                
-                if (!creditAmount) {
-                    showToast('❌ Geçersiz kod!', 'error');
-                    return;
-                }
-                
-                if (!user.usedCodes) user.usedCodes = [];
-                if (user.usedCodes.includes(code) && code !== UNLIMITED_CODE) {
-                    showToast('❌ Bu kodu zaten kullandın!', 'error');
-                    return;
-                }
-                
-                updateCredits(creditAmount, `Kod kullanıldı: ${code}`);
-                
-                if (code !== UNLIMITED_CODE) {
-                    user.usedCodes.push(code);
-                }
-                
-                saveUsers();
-                showToast(`✅ ${creditAmount} Kredi hesabına eklendi!`, 'success');
-                render();
-            };
-
-            function renderHistoryPage() {
-                const user = getUser();
-                const history = user.purchaseHistory || [];
-                
-                mainEl.innerHTML = `
-                    <div class="glass-premium page-content">
-                        <h2 style="margin-bottom: 24px;"><i class="fas fa-history"></i> Satın Alım Geçmişi</h2>
-                        
-                        <div class="history-premium" id="historyContainer">
-                            ${history.length === 0 ? 
-                                '<p style="color: #9ca3af; text-align: center; padding: 40px;">Henüz alışveriş yapılmamış.</p>' :
-                                history.slice().reverse().map(h => `
-                                    <div class="history-entry">
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-weight: 700; font-size: 16px;">${h.item}</span>
-                                            <span style="color: #fbbf24; font-weight: 700;">
-                                                <i class="fas fa-coins"></i> ${h.price}
-                                            </span>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #9ca3af;">
-                                            <span>Adet: ${h.quantity}</span>
-                                            <span><i class="far fa-clock"></i> ${h.date}</span>
-                                        </div>
-                                    </div>
-                                `).join('')
-                            }
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Wheel System
-            const wheelPrizes = [1, 3, 5, 6, 8, 10];
-            let lastSpin = localStorage.getItem(`wheel_${currentUser}`) || null;
-
-            function updateWheelState() {
-                const today = new Date().toDateString();
-                const btn = document.getElementById('spinBtn');
-                const msg = document.getElementById('wheelMsg');
-                
-                if (lastSpin === today) {
-                    if (btn) {
-                        btn.disabled = true;
-                        btn.style.opacity = '0.5';
-                        btn.innerHTML = '<i class="fas fa-check"></i> Bugün Çevrildi';
-                    }
-                    if (msg) msg.textContent = '⏰ Yarın tekrar dene!';
-                }
-            }
-
-            window.spinWheel = function() {
-                const today = new Date().toDateString();
-                if (lastSpin === today) {
-                    showToast('Günlük hakkını zaten kullandın!', 'warning');
-                    return;
-                }
-                
-                const wheel = document.getElementById('wheel');
-                wheel.classList.add('spinning');
-                
-                setTimeout(() => {
-                    const prize = wheelPrizes[Math.floor(Math.random() * wheelPrizes.length)];
-                    updateCredits(prize, 'Günlük çark ödülü');
-                    lastSpin = today;
-                    localStorage.setItem(`wheel_${currentUser}`, today);
+                products.forEach(product => {
+                    const isImageUrl = product.image && (product.image.startsWith('http') || product.image.startsWith('https'));
+                    const displayPrice = product.hasDiscount ? product.discountedPrice : product.originalPrice;
                     
-                    wheel.classList.remove('spinning');
-                    showToast(`🎉 Tebrikler! ${prize} Kredi kazandın!`, 'success');
-                    render();
-                }, 3000);
-            };
-
-            window.openAvatarModal = function() {
-                const modal = document.getElementById('modal');
-                const body = document.getElementById('modal-body');
-                const user = getUser();
+                    html += `
+                        <div class="shop-card">
+                            ${isFounderUser ? `
+                                <div class="delete-btn" onclick="deleteProduct(${product.id})">
+                                    <i class="fas fa-trash-alt"></i>
+                                </div>
+                            ` : ''}
+                            
+                            ${isImageUrl ? 
+                                `<img src="${product.image}" class="shop-image" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">` : 
+                                ''
+                            }
+                            
+                            <div class="shop-emoji" style="${isImageUrl ? 'display: none;' : ''}">
+                                ${product.image || '🛒'}
+                            </div>
+                            
+                            <div class="shop-name">${product.name}</div>
+                            ${product.description ? `<div class="shop-desc">${product.description}</div>` : ''}
+                            
+                            <div class="shop-price-container">
+                                ${product.hasDiscount ? `
+                                    <span class="shop-old-price">${product.originalPrice} Kredi</span>
+                                    <span class="shop-price">${product.discountedPrice} Kredi</span>
+                                    <span class="shop-discount">
+                                        <i class="fas fa-tag"></i> %${Math.round((1 - product.discountedPrice / product.originalPrice) * 100)} İNDİRİM
+                                    </span>
+                                ` : `
+                                    <span class="shop-price">${product.originalPrice} Kredi</span>
+                                `}
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="purchaseProduct(${product.id}, '${product.name}', ${displayPrice})" style="width: 100%;">
+                                <i class="fas fa-shopping-cart"></i> Satın Al
+                            </button>
+                        </div>
+                    `;
+                });
                 
-                body.innerHTML = `
-                    <h3 style="font-size: 24px; margin-bottom: 20px;">
-                        <i class="fas fa-image"></i> Profil Fotoğrafı
-                    </h3>
-                    <div class="input-group">
-                        <label class="input-label">Resim URL'si</label>
-                        <input class="input-premium" id="avatarUrl" placeholder="https://..." value="${user.avatar || ''}">
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            mainEl.innerHTML = html;
+        }
+
+        function renderCreditPage() {
+            mainEl.innerHTML = `
+                <div class="glass-premium page-content">
+                    <h2 style="margin-bottom: 24px;"><i class="fas fa-gift"></i> Kredi Kodu Kullan</h2>
+                    
+                    <div class="glass-premium" style="padding: 30px; max-width: 500px; margin: 0 auto;">
+                        <div class="input-group">
+                            <label class="input-label">Kodunu Gir</label>
+                            <input class="input-premium" id="codeInput" placeholder="Kodu buraya yaz">
+                        </div>
+                        <button class="btn btn-warning" onclick="redeemCode()" style="width: 100%;">
+                            <i class="fas fa-check"></i> Kodu Kullan
+                        </button>
+                        <p style="margin-top: 20px; font-size: 13px; color: #6b7280; text-align: center;">
+                            <i class="fas fa-info-circle"></i> Kodlar tek kullanımlıktır.
+                        </p>
                     </div>
-                    <button class="btn btn-primary" onclick="saveAvatar()" style="width: 100%;">
-                        <i class="fas fa-save"></i> Kaydet
-                    </button>
-                `;
+                </div>
+            `;
+        }
+
+        // ==================== PRODUCT MODAL ====================
+        window.openAddProductModal = function() {
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            
+            body.innerHTML = `
+                <h3 style="font-size: 24px; margin-bottom: 20px;">
+                    <i class="fas fa-plus-circle"></i> Yeni Ürün Ekle
+                </h3>
                 
-                modal.classList.remove('hidden');
-            };
+                <div class="input-group">
+                    <label class="input-label">Ürün Adı</label>
+                    <input class="input-premium" id="productName" placeholder="Örn: Elmas Kılıç">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Normal Fiyat (Kredi)</label>
+                    <input class="input-premium" type="number" id="productOriginalPrice" placeholder="Örn: 100">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">İndirimli Fiyat (Kredi) - Boş bırakılabilir</label>
+                    <input class="input-premium" type="number" id="productDiscountedPrice" placeholder="Örn: 75">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Ürün Görseli (Emoji veya Resim URL)</label>
+                    <input class="input-premium" id="productImage" placeholder="Örn: ⚔️ veya https://...">
+                    <p class="product-hint">Emoji veya resim linki girebilirsiniz.</p>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Ürün Açıklaması</label>
+                    <textarea class="input-premium" id="productDescription" placeholder="Ürün hakkında kısa açıklama..."></textarea>
+                </div>
+                
+                <button class="btn btn-success" onclick="submitProduct()" style="width: 100%;">
+                    <i class="fas fa-check"></i> Ürünü Ekle
+                </button>
+            `;
+            
+            modal.classList.remove('hidden');
+        };
 
-            window.saveAvatar = function() {
-                const url = document.getElementById('avatarUrl').value.trim();
-                if (url) {
-                    users[currentUser].avatar = url;
-                    saveUsers();
-                    addNotification(currentUser, '🖼️ Profil Fotoğrafı Güncellendi', 
-                        'Profil fotoğrafın başarıyla değiştirildi.', 'success', 'fa-camera');
-                    showToast('Profil fotoğrafı güncellendi!', 'success');
-                }
+        window.submitProduct = async function() {
+            const name = document.getElementById('productName').value.trim();
+            const originalPrice = document.getElementById('productOriginalPrice').value;
+            const discountedPrice = document.getElementById('productDiscountedPrice').value;
+            const image = document.getElementById('productImage').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
+            
+            if (!name || !originalPrice || !image) {
+                showToast('Lütfen zorunlu alanları doldurun!', 'warning');
+                return;
+            }
+            
+            const productData = {
+                name: name,
+                originalPrice: parseFloat(originalPrice),
+                discountedPrice: discountedPrice ? parseFloat(discountedPrice) : 0,
+                image: image,
+                description: description || ''
+            };
+            
+            const success = await addProductToGitHub(productData);
+            
+            if (success) {
                 closeModal();
-                render();
-            };
+            }
+        };
 
-            window.closeModal = function() {
-                document.getElementById('modal').classList.add('hidden');
-            };
-
-            window.toggleNotifications = toggleNotifications;
-            window.markNotificationRead = markNotificationRead;
-            window.markAllNotificationsRead = markAllNotificationsRead;
-
-            // Click outside to close notifications
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.notification-container')) {
-                    const dropdown = document.getElementById('notificationDropdown');
-                    if (dropdown) dropdown.classList.remove('show');
-                }
-            });
-
-            // Initialize
+        window.purchaseProduct = function(productId, productName, price) {
+            if (currentUserData.credits < price) {
+                showToast('❌ Yetersiz kredi!', 'error');
+                return;
+            }
+            
+            currentUserData.credits -= price;
+            saveCurrentUserData({ credits: currentUserData.credits });
+            
+            showToast(`✅ ${productName} satın alındı! ${price} Kredi harcandı.`, 'success');
+            
+            // Sayfayı güncelle
             render();
-            window.render = render;
+        };
+
+        window.redeemCode = function() {
+            const code = document.getElementById('codeInput').value.trim();
+            if (!code) {
+                showToast('Lütfen bir kod girin!', 'warning');
+                return;
+            }
+            
+            const creditAmount = CREDIT_CODES[code];
+            if (!creditAmount) {
+                showToast('❌ Geçersiz kod!', 'error');
+                return;
+            }
+            
+            if (!currentUserData.usedCodes) currentUserData.usedCodes = [];
+            if (currentUserData.usedCodes.includes(code) && code !== UNLIMITED_CODE) {
+                showToast('❌ Bu kodu zaten kullandın!', 'error');
+                return;
+            }
+            
+            currentUserData.credits = (currentUserData.credits || 0) + creditAmount;
+            
+            if (code !== UNLIMITED_CODE) {
+                currentUserData.usedCodes.push(code);
+            }
+            
+            saveCurrentUserData({ 
+                credits: currentUserData.credits, 
+                usedCodes: currentUserData.usedCodes 
+            });
+            
+            showToast(`✅ ${creditAmount} Kredi hesabına eklendi!`, 'success');
+            render();
+        };
+
+        window.openAvatarModal = function() {
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            
+            body.innerHTML = `
+                <h3 style="font-size: 24px; margin-bottom: 20px;">
+                    <i class="fas fa-image"></i> Profil Fotoğrafı
+                </h3>
+                <div class="input-group">
+                    <label class="input-label">Resim URL'si</label>
+                    <input class="input-premium" id="avatarUrl" placeholder="https://..." value="${currentUserData.avatar || ''}">
+                </div>
+                <button class="btn btn-primary" onclick="saveAvatar()" style="width: 100%;">
+                    <i class="fas fa-save"></i> Kaydet
+                </button>
+            `;
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.saveAvatar = function() {
+            const url = document.getElementById('avatarUrl').value.trim();
+            if (url) {
+                saveCurrentUserData({ avatar: url });
+                showToast('Profil fotoğrafı güncellendi!', 'success');
+            }
+            closeModal();
+            render();
+        };
+
+        window.deleteProduct = deleteProduct;
+
+        window.closeModal = function() {
+            document.getElementById('modal').classList.add('hidden');
+        };
+
+        // ==================== INIT ====================
+        (async function init() {
+            // Mevcut kullanıcıyı kontrol et
+            const savedUser = localStorage.getItem('nice_current_user');
+            if (savedUser) {
+                currentUser = savedUser;
+                currentUserData = getCurrentUserData();
+            }
+            
+            // GitHub token'ı kontrol et
+            githubToken = localStorage.getItem('github_token') || '';
+            
+            // Ürünleri yükle
+            if (githubToken) {
+                await loadProducts();
+            }
+            
+            render();
         })();
+
+        window.promptForToken = promptForToken;
     </script>
 </body>
 </html>
