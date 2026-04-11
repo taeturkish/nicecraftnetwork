@@ -6,5 +6,12 @@
     "credit": 999999,
     "avatar": "https://minotar.net/avatar/Zerlax",
     "banned": false
+  },
+  {
+    "password": "1",
+    "rank": "Oyuncu",
+    "credits": 0,
+    "avatar": null,
+    "banned": false
   }
 ]
