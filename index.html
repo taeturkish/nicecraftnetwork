@@ -207,11 +207,18 @@
             if (!githubToken) githubToken = buildToken();
             const headers = { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json', ...options.headers };
             try {
-                const response = await fetch(url, { ...options, headers });
-                if (response.status === 401) { showToast('Token geçersiz!', 'error'); return null; }
-                return response;
-            } catch (error) { showToast('GitHub bağlantı hatası!', 'error'); return null; }
-        }
+                // Telefonun eski ürünleri göstermemesi için URL sonuna rastgele sayı ekledik
+            const response = await fetch(url + (url.includes('?') ? '&' : '?') + 'v=' + Math.random(), { 
+                ...options, 
+                headers: {
+                    ...headers,
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache'
+                } 
+            });
+            if (response.status === 401) { showToast('Token geçersiz!', 'error'); return null; }
+            return response;
+        } catch (error) { showToast('GitHub bağlantı hatası!', 'error'); return null; }
 
         function parseProductFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
@@ -219,7 +226,7 @@
             return { id: issue.number, name: parts[0], originalPrice: parseFloat(parts[1]), discountedPrice: parseFloat(parts[2]) || null, image: parts[3], description: parts.slice(4).join('|'), hasDiscount: parseFloat(parts[2]) > 0 && parseFloat(parts[2]) < parseFloat(parts[1]) };
         }
 
-        async function loadProducts() {
+        async function () {
             const container = document.getElementById('shopContainer');
             if (container) container.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner"></i><p style="margin-top: 16px;">Ürünler yükleniyor...</p></div>`;
             const response = await githubRequest(`${GITHUB_API}?state=open&per_page=100&t=${Date.now()}`);
