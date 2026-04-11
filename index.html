@@ -784,11 +784,7 @@
 
         // ==================== GITHUB API FUNCTIONS ====================
         async function githubRequest(url, options = {}) {
-            if (!githubToken) {
-                showToast('Lütfen önce GitHub Token girin!', 'warning');
-                promptForToken();
-                return null;
-            }
+           if (!githubToken) return null;
 
             const headers = {
                 'Authorization': `token ${githubToken}`,
@@ -1048,11 +1044,7 @@
                     <div class="rank-badge ${getRankClass(currentUserData.rank)}">
                         <i class="fas fa-shield-alt"></i> ${currentUserData.rank}
                     </div>
-                    ${!githubToken ? `
-                        <button class="btn btn-warning" onclick="promptForToken()">
-                            <i class="fab fa-github"></i> Token Gir
-                        </button>
-                    ` : ''}
+                   
                     <button class="btn" onclick="handleLogout()">
                         <i class="fas fa-sign-out-alt"></i> Çıkış
                     </button>
@@ -1301,17 +1293,7 @@
                     </div>
             `;
             
-            if (!githubToken) {
-                html += `
-                    <div style="text-align: center; padding: 60px;">
-                        <i class="fab fa-github" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
-                        <h3>GitHub Token Gerekli</h3>
-                        <p style="color: #9ca3af; margin: 16px 0;">Mağazayı görüntülemek için GitHub Token girmelisiniz.</p>
-                        <button class="btn btn-primary" onclick="promptForToken()">
-                            <i class="fab fa-github"></i> Token Gir
-                        </button>
-                    </div>
-                `;
+            
             } else if (products.length === 0) {
                 html += `
                     <div style="text-align: center; padding: 60px;">
