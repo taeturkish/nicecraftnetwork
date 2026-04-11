@@ -452,12 +452,6 @@
             font-weight: 700;
         }
 
-        .shop-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
         .delete-btn {
             position: absolute;
             top: 12px;
@@ -672,8 +666,8 @@
         const GITHUB_REPO = "nicecraftnetwork";
         const GITHUB_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues`;
         
-        let githubToken = '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'; 
-// Artık kimseye sormaz, direkt senin tokenınla dükkanı açar.
+        // TOKEN DOĞRUDAN KODDA TANIMLI
+        const githubToken = "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";
 
         // ==================== PARTICLE EFFECT ====================
         function createParticles() {
@@ -784,8 +778,6 @@
 
         // ==================== GITHUB API FUNCTIONS ====================
         async function githubRequest(url, options = {}) {
-           if (!githubToken) return null;
-
             const headers = {
                 'Authorization': `token ${githubToken}`,
                 'Accept': 'application/vnd.github.v3+json',
@@ -796,8 +788,7 @@
                 const response = await fetch(url, { ...options, headers });
                 
                 if (response.status === 401) {
-                    showToast('Geçersiz GitHub Token!', 'error');
-                    promptForToken();
+                    showToast('GitHub Token geçersiz! Lütfen yönetici ile iletişime geçin.', 'error');
                     return null;
                 }
                 
@@ -806,16 +797,6 @@
                 console.error('GitHub API hatası:', error);
                 showToast('GitHub bağlantı hatası!', 'error');
                 return null;
-            }
-        }
-
-        function promptForToken() {
-            const token = prompt('GitHub Personal Access Token\'ınızı girin:\n\n(Repo izinleri olan bir token gereklidir)');
-            if (token) {
-                githubToken = token;
-                localStorage.setItem('github_token', token);
-                showToast('Token kaydedildi!', 'success');
-                loadProducts();
             }
         }
 
@@ -846,7 +827,7 @@
                 `;
             }
 
-            const response = await githubRequest(`${GITHUB_API}?state=open&per_page=100&t=${new Date().getTime()}`);
+            const response = await githubRequest(`${GITHUB_API}?state=open&per_page=100`);
             
             if (!response) {
                 products = [];
@@ -970,7 +951,7 @@
             users[username] = {
                 password: password,
                 rank: rank,
-                credits: 0, // BAŞLANGIÇ KREDİSİ 0
+                credits: 0,
                 avatar: null,
                 usedCodes: []
             };
@@ -1044,7 +1025,6 @@
                     <div class="rank-badge ${getRankClass(currentUserData.rank)}">
                         <i class="fas fa-shield-alt"></i> ${currentUserData.rank}
                     </div>
-                   
                     <button class="btn" onclick="handleLogout()">
                         <i class="fas fa-sign-out-alt"></i> Çıkış
                     </button>
@@ -1293,8 +1273,7 @@
                     </div>
             `;
             
-            
-            } else if (products.length === 0) {
+            if (products.length === 0) {
                 html += `
                     <div style="text-align: center; padding: 60px;">
                         <i class="fas fa-box-open" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
@@ -1596,8 +1575,6 @@
             document.getElementById('modal').classList.add('hidden');
         };
 
-        window.promptForToken = promptForToken;
-
         // ==================== INIT ====================
         (async function init() {
             const savedUser = localStorage.getItem('nice_current_user');
@@ -1607,11 +1584,8 @@
                 purchaseHistory = loadPurchaseHistory();
             }
             
-            githubToken = localStorage.getItem('github_token') || '';
-            
-            if (githubToken) {
-                await loadProducts();
-            }
+            // Token sabit olduğu için direkt ürünleri yükle
+            await loadProducts();
             
             render();
         })();
