@@ -40,7 +40,6 @@
         .btn-success { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); }
         .btn-warning { background: linear-gradient(135deg, #d97706, #f59e0b); box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); }
         .btn-danger { background: linear-gradient(135deg, #dc2626, #ef4444); }
-        .btn-info { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
         .auth-wrapper { max-width: 480px; margin: 60px auto; padding: 40px; animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .auth-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -112,18 +111,6 @@
         .hidden { display: none !important; }
         .page-content { padding: 28px; min-height: 500px; }
         .product-hint { font-size: 12px; color: #6b7280; margin-top: 4px; }
-        
-        /* KULLANICI YÖNETİM PANELİ */
-        .users-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .user-card { background: rgba(20, 30, 50, 0.7); border-radius: 20px; padding: 20px; border: 2px solid rgba(100, 150, 255, 0.2); }
-        .user-card.banned { border-color: #ef4444; }
-        .user-avatar { width: 50px; height: 50px; border-radius: 12px; border: 2px solid #6366f1; }
-        .user-credits { font-size: 18px; font-weight: 800; color: #fbbf24; margin: 8px 0; }
-        .user-password { font-size: 11px; color: #6b7280; font-family: monospace; }
-        .user-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-        .user-actions .btn { padding: 6px 12px; font-size: 11px; }
-        .sync-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 16px; }
-        
         @media (max-width: 768px) { #app { padding: 12px; } .profile-header-premium { flex-direction: column; text-align: center; } }
     </style>
 </head>
@@ -172,14 +159,7 @@
         const GITHUB_USER = "taeturkish";
         const GITHUB_REPO = "nicecraftnetwork";
         const GITHUB_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/issues`;
-        const USERS_DB_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/database/users.json`;
         let githubToken = buildToken();
-
-        // Yetki seviyeleri
-        const RANK_LEVELS = { 'Oyuncu':1, 'VIP':2, 'VIP+':3, 'MVIP':4, 'MVIP+':5, 'Rehber':6, 'Moderator':7, 'Üst Moderator':8, 'Admin':9, 'Yönetici':10, 'Üst Yönetici':11, 'Kurucu Yardımcısı':12, 'Kurucu':13 };
-        function getRankLevel(rank) { return RANK_LEVELS[rank] || 1; }
-        function canManage(targetRank) { if (!currentUserData) return false; if (currentUserData.rank === 'Kurucu') return true; return getRankLevel(currentUserData.rank) > getRankLevel(targetRank); }
-        function canSeePassword(targetRank) { if (!currentUserData) return false; if (currentUserData.rank === 'Kurucu' && targetRank !== 'Kurucu') return true; return getRankLevel(currentUserData.rank) > getRankLevel(targetRank); }
 
         // ==================== PARTICLE EFFECT ====================
         function createParticles() {
@@ -243,65 +223,6 @@
             } catch (error) { showToast('GitHub bağlantı hatası!', 'error'); return null; }
         }
 
-        // ==================== GITHUB JSON DB - KULLANICI İŞLEMLERİ ====================
-        async function loadUsers() { 
-            try {
-                const response = await fetch(USERS_DB_API, {
-                    headers: { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' },
-                    cache: 'no-store'
-                });
-                
-                if (!response.ok) {
-                    if (response.status === 404) return {};
-                    const stored = localStorage.getItem('nice_users_backup');
-                    return stored ? JSON.parse(stored) : {};
-                }
-                
-                const data = await response.json();
-                const users = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                localStorage.setItem('nice_users_backup', JSON.stringify(users));
-                return users;
-            } catch (e) {
-                const stored = localStorage.getItem('nice_users_backup');
-                return stored ? JSON.parse(stored) : {};
-            }
-        }
-
-        async function saveUsers(users) { 
-            localStorage.setItem('nice_users_backup', JSON.stringify(users));
-            
-            try {
-                const getRes = await fetch(USERS_DB_API, {
-                    headers: { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json' }
-                });
-                
-                let sha = null;
-                if (getRes.ok) {
-                    const data = await getRes.json();
-                    sha = data.sha;
-                }
-                
-                const content = btoa(unescape(encodeURIComponent(JSON.stringify(users, null, 2))));
-                const body = { message: 'Update users - ' + new Date().toLocaleString('tr-TR'), content };
-                if (sha) body.sha = sha;
-                
-                const putRes = await fetch(USERS_DB_API, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json' },
-                    body: JSON.stringify(body)
-                });
-                
-                if (putRes.ok) {
-                    console.log('✅ Kullanıcılar GitHub\'a kaydedildi');
-                    return true;
-                }
-                return false;
-            } catch (e) {
-                console.error('GitHub kaydetme hatası:', e);
-                return false;
-            }
-        }
-
         function parseProductFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
             if (parts.length < 5) return null;
@@ -359,10 +280,8 @@
             const userUseCount = code.usedBy[currentUser] || 0;
             if (userUseCount >= code.maxPerUser) { showToast('❌ Bu kodu maksimum kez kullandın!', 'error'); return false; }
             
-            const users = await loadUsers();
-            users[currentUser].credits = (users[currentUser].credits || 0) + code.credit;
-            await saveUsers(users);
-            currentUserData = users[currentUser];
+            currentUserData.credits = (currentUserData.credits || 0) + code.credit;
+            saveCurrentUserData({ credits: currentUserData.credits });
             
             code.usedBy[currentUser] = userUseCount + 1;
             
@@ -395,7 +314,11 @@
             await loadProducts();
         }
 
-        // ==================== SATIN ALMA GEÇMİŞİ ====================
+        // ==================== STORAGE FUNCTIONS ====================
+        function loadUsers() { const stored = localStorage.getItem('nice_users'); return stored ? JSON.parse(stored) : {}; }
+        function saveUsers(users) { localStorage.setItem('nice_users', JSON.stringify(users)); }
+        function getCurrentUserData() { if (!currentUser) return null; const users = loadUsers(); return users[currentUser] || null; }
+        function saveCurrentUserData(data) { if (!currentUser) return; const users = loadUsers(); users[currentUser] = { ...users[currentUser], ...data }; saveUsers(users); currentUserData = users[currentUser]; }
         function loadPurchaseHistory() { if (!currentUser) return []; const stored = localStorage.getItem(`purchase_history_${currentUser}`); return stored ? JSON.parse(stored) : []; }
         function savePurchaseHistory(history) { if (!currentUser) return; localStorage.setItem(`purchase_history_${currentUser}`, JSON.stringify(history)); purchaseHistory = history; }
         function addToPurchaseHistory(itemName, price) { const history = loadPurchaseHistory(); history.push({ item: itemName, price: price, date: new Date().toISOString() }); savePurchaseHistory(history); }
@@ -406,24 +329,23 @@
         function canSpinWheel() { const lastSpin = getLastWheelSpin(); if (!lastSpin) return true; const today = new Date().toDateString(); return lastSpin !== today; }
 
         // ==================== AUTH FUNCTIONS ====================
-        async function register(username, password) {
-            const users = await loadUsers();
+        function register(username, password) {
+            const users = loadUsers();
             if (users[username]) { showToast('Bu kullanıcı adı zaten alınmış!', 'error'); return false; }
             const rank = detectRank(password);
-            users[username] = { password: password, rank: rank, credits: 0, avatar: null, banned: false };
-            await saveUsers(users);
+            users[username] = { password: password, rank: rank, credits: 0, avatar: null };
+            saveUsers(users);
             showToast('🎉 Hesap oluşturuldu!', 'success');
             return true;
         }
 
-        async function login(username, password) {
-            const users = await loadUsers();
+        function login(username, password) {
+            const users = loadUsers();
             const user = users[username];
             if (!user) { showToast('Kullanıcı bulunamadı!', 'error'); return false; }
             if (user.password !== password) { showToast('Şifre hatalı!', 'error'); return false; }
-            if (user.banned) { showToast('Hesabın banlanmış!', 'error'); return false; }
             const newRank = detectRank(password);
-            if (user.rank !== newRank) { user.rank = newRank; await saveUsers(users); showToast(`⭐ Yetkin güncellendi: ${newRank}`, 'info'); }
+            if (user.rank !== newRank) { user.rank = newRank; saveUsers(users); showToast(`⭐ Yetkin güncellendi: ${newRank}`, 'info'); }
             currentUser = username; currentUserData = user; localStorage.setItem('nice_current_user', username); purchaseHistory = loadPurchaseHistory();
             showToast('✅ Başarıyla giriş yapıldı!', 'success');
             return true;
@@ -450,17 +372,13 @@
 
         function renderTabs() {
             tabNav.classList.remove('hidden');
-            let tabs = `
+            tabNav.innerHTML = `
                 <button class="tab-btn ${currentPage === 'home' ? 'active' : ''}" onclick="switchPage('home')"><i class="fas fa-home"></i> Ana Sayfa</button>
                 <button class="tab-btn ${currentPage === 'profile' ? 'active' : ''}" onclick="switchPage('profile')"><i class="fas fa-user"></i> Profil</button>
                 <button class="tab-btn ${currentPage === 'shop' ? 'active' : ''}" onclick="switchPage('shop')"><i class="fas fa-store"></i> Mağaza</button>
                 <button class="tab-btn ${currentPage === 'credit' ? 'active' : ''}" onclick="switchPage('credit')"><i class="fas fa-gift"></i> Kredi</button>
                 <button class="tab-btn ${currentPage === 'history' ? 'active' : ''}" onclick="switchPage('history')"><i class="fas fa-history"></i> Geçmiş</button>
             `;
-            if (isFounder()) {
-                tabs += `<button class="tab-btn ${currentPage === 'users' ? 'active' : ''}" onclick="switchPage('users')"><i class="fas fa-users-cog"></i> Kullanıcılar</button>`;
-            }
-            tabNav.innerHTML = tabs;
         }
 
         window.switchPage = async function(page) { currentPage = page; await render(); };
@@ -485,11 +403,11 @@
             `;
         };
 
-        window.handleAuth = async function(mode) {
+        window.handleAuth = function(mode) {
             const username = document.getElementById('auth-user').value.trim(), password = document.getElementById('auth-pass').value;
             if (!username || !password) { showToast('Lütfen tüm alanları doldurun!', 'warning'); return; }
-            const success = mode === 'register' ? await register(username, password) : await login(username, password);
-            if (success) { render(); }
+            const success = mode === 'register' ? register(username, password) : login(username, password);
+            if (success) { currentUserData = getCurrentUserData(); render(); }
         };
 
         async function renderPage() {
@@ -499,7 +417,6 @@
                 case 'shop': await renderShopPage(); break;
                 case 'credit': await renderCreditPage(); break;
                 case 'history': renderHistoryPage(); break;
-                case 'users': await renderUsersPanel(); break;
             }
         }
 
@@ -600,6 +517,7 @@
                         ${isFounderUser ? `<button class="btn btn-success" onclick="openAddCodeModal()"><i class="fas fa-plus-circle"></i> Kod Oluştur</button>` : ''}
                     </div>
                     
+                    <!-- Kod Kullanma Alanı (HERKES GÖRÜR) -->
                     <div class="glass-premium" style="padding: 24px; margin-bottom: 30px;">
                         <div style="display: flex; gap: 10px;">
                             <input class="input-premium" id="promoCodeInput" placeholder="Kodunu gir" style="margin: 0;">
@@ -608,6 +526,7 @@
                     </div>
             `;
             
+            // KOD LİSTESİ (SADECE KURUCU GÖRÜR)
             if (isFounderUser) {
                 html += `<h3 style="margin-bottom: 20px;"><i class="fas fa-list"></i> Aktif Kodlar</h3>`;
                 
@@ -650,162 +569,13 @@
             mainEl.innerHTML = `<div class="glass-premium page-content"><h2 style="margin-bottom: 24px;"><i class="fas fa-history"></i> Satın Alım Geçmişi</h2><div class="history-premium">${history.length === 0 ? '<p style="color: #9ca3af; text-align: center; padding: 40px;">Henüz alışveriş yapılmamış.</p>' : history.slice().reverse().map(h => `<div class="history-entry"><div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 700; font-size: 16px;">${h.item}</span><span style="color: #fbbf24; font-weight: 700;"><i class="fas fa-coins"></i> ${h.price}</span></div><div style="margin-top: 8px; font-size: 12px; color: #9ca3af;"><i class="far fa-clock"></i> ${formatDate(h.date)}</div></div>`).join('')}</div></div>`;
         }
 
-        // ==================== KULLANICI YÖNETİM PANELİ ====================
-        async function renderUsersPanel() {
-            if (!isFounder()) { mainEl.innerHTML = `<div class="page-content"><p>Yetkisiz erişim!</p></div>`; return; }
-            
-            showToast('🔄 Kullanıcılar yükleniyor...', 'info');
-            const users = await loadUsers();
-            const userList = Object.entries(users);
-            
-            let html = `
-                <div class="glass-premium page-content">
-                    <div class="sync-bar">
-                        <div><i class="fas fa-database"></i> GitHub Veritabanı - ${userList.length} Kullanıcı</div>
-                        <button class="btn btn-info" onclick="syncUsers()"><i class="fas fa-sync-alt"></i> Senkronize Et</button>
-                    </div>
-                    <div class="users-grid">
-            `;
-            
-            userList.sort((a,b) => getRankLevel(b[1].rank) - getRankLevel(a[1].rank)).forEach(([username, data]) => {
-                const canManageThis = canManage(data.rank);
-                const canSeePass = canSeePassword(data.rank);
-                const isSelf = username === currentUser;
-                
-                html += `
-                    <div class="user-card ${data.banned ? 'banned' : ''}">
-                        <div style="display:flex;gap:12px;margin-bottom:15px">
-                            <img src="${data.avatar || 'https://mc-heads.net/avatar/' + username}" class="user-avatar" onerror="this.src='https://mc-heads.net/avatar/Steve'">
-                            <div>
-                                <div style="font-weight:700">${username}</div>
-                                <div class="rank-${data.rank.toLowerCase().replace(/ /g,'')}">${data.rank}</div>
-                            </div>
-                        </div>
-                        <div class="user-credits"><i class="fas fa-coins"></i> ${data.credits || 0} Kredi</div>
-                        ${canSeePass ? `<div class="user-password"><i class="fas fa-key"></i> ${data.password}</div>` : `<div class="user-password"><i class="fas fa-lock"></i> ••••••••</div>`}
-                        <div class="user-actions">
-                            ${canManageThis ? `
-                                <button class="btn btn-success" onclick="addCredits('${username}')"><i class="fas fa-plus"></i> Kredi</button>
-                                <button class="btn btn-warning" onclick="setCredits('${username}')"><i class="fas fa-edit"></i> Ayarla</button>
-                                <button class="btn btn-danger" onclick="removeCredits('${username}')"><i class="fas fa-trash"></i> Sıfırla</button>
-                                <button class="btn btn-info" onclick="changeRank('${username}')"><i class="fas fa-shield-alt"></i> Yetki</button>
-                                <button class="btn btn-info" onclick="changeAvatar('${username}')"><i class="fas fa-image"></i> Avatar</button>
-                            ` : ''}
-                            ${!isSelf && canManageThis ? (data.banned ? 
-                                `<button class="btn btn-success" onclick="unbanUser('${username}')"><i class="fas fa-unlock"></i> Ban Aç</button>` : 
-                                `<button class="btn btn-danger" onclick="banUser('${username}')"><i class="fas fa-ban"></i> Banla</button>`
-                            ) : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += `</div></div>`;
-            mainEl.innerHTML = html;
-            showToast('✅ Kullanıcılar yüklendi!', 'success');
-        }
-
-        // ==================== KULLANICI İŞLEMLERİ ====================
-        window.syncUsers = async function() {
-            showToast('🔄 Senkronize ediliyor...', 'info');
-            await renderUsersPanel();
-        };
-        
-        window.addCredits = async function(u) {
-            const amount = prompt('Eklenecek kredi:', '100');
-            if (!amount) return;
-            const users = await loadUsers();
-            users[u].credits = (users[u].credits || 0) + parseInt(amount);
-            await saveUsers(users);
-            if (u === currentUser) currentUserData = users[u];
-            showToast(`✅ ${amount} Kredi eklendi!`);
-            render();
-        };
-        
-        window.setCredits = async function(u) {
-            const amount = prompt('Yeni kredi miktarı:', '500');
-            if (!amount) return;
-            const users = await loadUsers();
-            users[u].credits = parseInt(amount);
-            await saveUsers(users);
-            if (u === currentUser) currentUserData = users[u];
-            showToast(`✅ Kredi ${amount} olarak ayarlandı!`);
-            render();
-        };
-        
-        window.removeCredits = async function(u) {
-            if (!confirm('Kredi sıfırlansın mı?')) return;
-            const users = await loadUsers();
-            users[u].credits = 0;
-            await saveUsers(users);
-            if (u === currentUser) currentUserData = users[u];
-            showToast('✅ Kredi sıfırlandı!');
-            render();
-        };
-        
-        window.changeRank = async function(u) {
-            const users = await loadUsers();
-            const currentRank = users[u].rank;
-            const availableRanks = Object.keys(RANK_LEVELS).filter(r => getRankLevel(r) < getRankLevel(currentUserData.rank) || currentUserData.rank === 'Kurucu');
-            let html = `<h3>${u} - Yetki Değiştir</h3><p>Mevcut: ${currentRank}</p><div style="display:grid;gap:10px;margin-top:20px">`;
-            availableRanks.forEach(r => { html += `<button class="btn rank-${r.toLowerCase().replace(/ /g,'')}" onclick="setRank('${u}','${r}')">${r}</button>`; });
-            document.getElementById('modal-body').innerHTML = html;
-            document.getElementById('modal').classList.remove('hidden');
-        };
-        
-        window.setRank = async function(u, r) {
-            const users = await loadUsers();
-            users[u].rank = r;
-            await saveUsers(users);
-            if (u === currentUser) currentUserData = users[u];
-            closeModal();
-            showToast(`✅ Yetki ${r} olarak değiştirildi!`);
-            render();
-        };
-        
-        window.changeAvatar = async function(u) {
-            const type = prompt('1: URL\n2: Minecraft nick', '2');
-            let avatar;
-            if (type === '1') avatar = prompt('URL:');
-            else avatar = `https://mc-heads.net/avatar/${prompt('Nick:', u)}`;
-            if (avatar) {
-                const users = await loadUsers();
-                users[u].avatar = avatar;
-                await saveUsers(users);
-                if (u === currentUser) currentUserData = users[u];
-                showToast('✅ Avatar güncellendi!');
-                render();
-            }
-        };
-        
-        window.banUser = async function(u) {
-            if (u === currentUser) { showToast('Kendini banlayamazsın!', 'error'); return; }
-            if (!confirm(`${u} banlansın mı?`)) return;
-            const users = await loadUsers();
-            users[u].banned = true;
-            await saveUsers(users);
-            showToast(`✅ ${u} banlandı!`);
-            render();
-        };
-        
-        window.unbanUser = async function(u) {
-            const users = await loadUsers();
-            users[u].banned = false;
-            await saveUsers(users);
-            showToast(`✅ ${u} banı açıldı!`);
-            render();
-        };
-
         // ==================== ACTIONS ====================
-        window.spinWheel = async function() {
+        window.spinWheel = function() {
             if (!canSpinWheel()) { showToast('Günlük hakkını zaten kullandın!', 'warning'); return; }
             const wheel = document.getElementById('wheel'); wheel.classList.add('spinning');
-            setTimeout(async () => {
+            setTimeout(() => {
                 const prize = WHEEL_PRIZES[Math.floor(Math.random() * WHEEL_PRIZES.length)];
-                const users = await loadUsers();
-                users[currentUser].credits = (users[currentUser].credits || 0) + prize;
-                await saveUsers(users);
-                currentUserData = users[currentUser];
+                currentUserData.credits = (currentUserData.credits || 0) + prize; saveCurrentUserData({ credits: currentUserData.credits });
                 const today = new Date().toDateString(); setLastWheelSpin(today);
                 wheel.classList.remove('spinning'); showToast(`🎉 Tebrikler! ${prize} Kredi kazandın!`, 'success');
                 render();
@@ -866,12 +636,9 @@
             if (await redeemPromoCode(code)) { input.value = ''; render(); }
         };
 
-        window.purchaseProduct = async function(productName, price) {
+        window.purchaseProduct = function(productName, price) {
             if (currentUserData.credits < price) { showToast('❌ Yetersiz kredi!', 'error'); return; }
-            const users = await loadUsers();
-            users[currentUser].credits -= price;
-            await saveUsers(users);
-            currentUserData = users[currentUser];
+            currentUserData.credits -= price; saveCurrentUserData({ credits: currentUserData.credits });
             addToPurchaseHistory(productName, price);
             showToast(`✅ ${productName} satın alındı! ${price} Kredi harcandı.`, 'success');
             render();
@@ -882,19 +649,7 @@
             document.getElementById('modal').classList.remove('hidden');
         };
 
-        window.saveAvatar = async function() { 
-            const url = document.getElementById('avatarUrl').value.trim(); 
-            if (url) { 
-                const users = await loadUsers();
-                users[currentUser].avatar = url;
-                await saveUsers(users);
-                currentUserData = users[currentUser];
-                showToast('Profil fotoğrafı güncellendi!', 'success'); 
-            } 
-            closeModal(); 
-            render(); 
-        };
-        
+        window.saveAvatar = function() { const url = document.getElementById('avatarUrl').value.trim(); if (url) { saveCurrentUserData({ avatar: url }); showToast('Profil fotoğrafı güncellendi!', 'success'); } closeModal(); render(); };
         window.deleteProduct = deleteProduct;
         window.deletePromoCode = deletePromoCode;
         window.closeModal = function() { document.getElementById('modal').classList.add('hidden'); };
@@ -902,12 +657,7 @@
         // ==================== INIT ====================
         (async function init() {
             const savedUser = localStorage.getItem('nice_current_user');
-            if (savedUser) { 
-                currentUser = savedUser; 
-                const users = await loadUsers();
-                currentUserData = users[savedUser];
-                purchaseHistory = loadPurchaseHistory(); 
-            }
+            if (savedUser) { currentUser = savedUser; currentUserData = getCurrentUserData(); purchaseHistory = loadPurchaseHistory(); }
             await loadProducts();
             await loadPromoCodes();
             render();
