@@ -15,7 +15,7 @@
         .particle { position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.3); border-radius: 50%; animation: float 15s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateY(-100vh) translateX(20px); opacity: 0; } }
         #app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .glass-premium { background: rgba(15, 25, 45, 0.4); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(100, 150, 255, 0.15); border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(100, 150, 255, 0.1) inset, 0 0 30px rgba(100, 150, 255, 0.1); transition: all 0.3s; }
+        .glass-premium { background: rgba(15, 25, 45, 0.4); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(100, 150, 255, 0.15); border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(100, 150, 255, 0.1) inset, 0 0 30px rgba(100, 150, 255, 0.1); transition: all 0.3s; padding: 20px; margin-bottom: 20px; }
         .glass-premium:hover { box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(100, 150, 255, 0.2) inset, 0 0 40px rgba(100, 150, 255, 0.15); transform: translateY(-2px); }
         nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; margin-bottom: 30px; animation: slideDown 0.6s ease-out; flex-wrap: wrap; gap: 15px; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
@@ -114,11 +114,28 @@
         .product-hint { font-size: 12px; color: #6b7280; margin-top: 4px; }
         
         /* YENİ EKLENEN STİLLER */
-        .ticket-card, .application-card { background: rgba(20, 30, 50, 0.7); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #6366f1; }
+        .ticket-card, .application-card { background: rgba(20, 30, 50, 0.7); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #6366f1; position: relative; }
         .avatar-small { width: 32px; height: 32px; border-radius: 10px; border: 2px solid #6366f1; object-fit: cover; }
         .sync-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 16px; }
+        .close-item-btn { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 6px; background: rgba(239, 68, 68, 0.2); color: #ef4444; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; z-index: 5; }
+        .close-item-btn:hover { background: rgba(239, 68, 68, 0.4); }
         
-        @media (max-width: 768px) { #app { padding: 12px; } .profile-header-premium { flex-direction: column; text-align: center; } }
+        /* BİLDİRİM SİSTEMİ */
+        .notification-container { position: relative; }
+        .notification-bell { cursor: pointer; padding: 8px 12px; background: rgba(20, 30, 50, 0.6); border-radius: 40px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(100, 150, 255, 0.2); }
+        .notification-badge { background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+        .notification-dropdown { position: absolute; top: 50px; right: 0; width: 350px; max-height: 400px; overflow-y: auto; background: #1a2332; border: 1px solid #364153; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; display: none; }
+        .notification-dropdown.show { display: block; }
+        .notification-header { padding: 16px; border-bottom: 1px solid #2a3748; display: flex; justify-content: space-between; align-items: center; }
+        .notification-item { padding: 12px 16px; border-bottom: 1px solid #2a3748; cursor: pointer; transition: background 0.2s; }
+        .notification-item:hover { background: rgba(255,255,255,0.05); }
+        .notification-item.unread { background: rgba(79, 70, 229, 0.1); border-left: 3px solid #6366f1; }
+        .notification-title { font-weight: 600; margin-bottom: 4px; }
+        .notification-message { font-size: 13px; color: #9ca3af; }
+        .notification-time { font-size: 11px; color: #6b7280; margin-top: 4px; }
+        .notification-empty { padding: 30px; text-align: center; color: #6b7280; }
+        
+        @media (max-width: 768px) { #app { padding: 12px; } .profile-header-premium { flex-direction: column; text-align: center; } .notification-dropdown { width: 300px; } }
     </style>
 </head>
 <body>
@@ -135,7 +152,7 @@
         </nav>
 
         <div id="tabNav" class="tab-nav glass-premium hidden"></div>
-        <div id="main-content"></div>
+        <div id="main-content" class="glass-premium" style="min-height: 500px;"></div>
     </div>
 
     <div id="modal" class="modal-premium hidden">
@@ -183,44 +200,139 @@
         createParticles();
 
         // ==================== GLOBAL VARIABLES ====================
-        let currentUser = null, currentUserData = null, currentPage = 'home', products = [], promoCodes = [], purchaseHistory = [];
+        let currentUser = null, currentUserData = null, currentPage = 'home';
+        let products = [], promoCodes = [], purchaseHistory = [];
         let tickets = [], applications = [], staffQuestions = [];
+        let notifications = [];
+        let hiddenItems = JSON.parse(localStorage.getItem('hidden_items') || '{"tickets":[], "applications":[], "purchases":[]}');
+        
         const WHEEL_PRIZES = [1, 3, 5, 6, 8, 10];
+        const RANKS = ['Oyuncu', 'VIP', 'MVIP', 'Rehber', 'Moderator', 'Admin', 'Kurucu'];
 
-        // ==================== UTILITY FUNCTIONS ====================
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icons = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
-            toast.innerHTML = `<i class="fas ${icons[type]}" style="font-size: 20px;"></i><span style="flex: 1;">${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(100px)'; toast.style.transition = 'all 0.3s'; setTimeout(() => toast.remove(), 300); }, 4000);
+        // ==================== BİLDİRİM SİSTEMİ ====================
+        function addNotification(user, title, message, type = 'info') {
+            notifications.unshift({
+                id: Date.now() + Math.random(),
+                user: user,
+                title: title,
+                message: message,
+                type: type,
+                read: false,
+                date: new Date().toISOString()
+            });
+            if (notifications.length > 50) notifications = notifications.slice(0, 50);
+            localStorage.setItem('nice_notifications', JSON.stringify(notifications));
+            updateNotificationBadge();
         }
 
-        function detectRank(password) {
-            if (typeof password !== 'string') return 'Oyuncu';
-            const suffixes = [
-                { suffix: '87333999vilayetvezerlax', rank: 'Kurucu' }, { suffix: 'zerlaxvilayetvbyardimci333', rank: 'Kurucu Yardımcısı' },
-                { suffix: 'sasatatarara333999999333999333999', rank: 'Üst Yönetici' }, { suffix: 'yonetici333999123123123999999999333333333', rank: 'Yönetici' },
-                { suffix: 'admin1233339999339393barababadararakrallila', rank: 'Admin' }, { suffix: 'üstmod99933339bilinmemeli', rank: 'Üst Moderator' },
-                { suffix: 'mod12333999', rank: 'Moderator' }, { suffix: 'mvipartiolcamamayarindegil', rank: 'MVIP+' },
-                { suffix: 'mvipolcam123degil333oldu999', rank: 'MVIP' }, { suffix: 'viparti993312', rank: 'VIP+' },
-                { suffix: 'vip999333999', rank: 'VIP' }, { suffix: 'rehber999', rank: 'Rehber' }
-            ];
-            for (let s of suffixes) if (password.endsWith(s.suffix)) return s.rank;
+        function loadNotifications() {
+            notifications = JSON.parse(localStorage.getItem('nice_notifications') || '[]');
+        }
+
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notificationBadge');
+            if (badge) {
+                const unread = notifications.filter(n => !n.read && n.user === currentUser).length;
+                badge.textContent = unread > 9 ? '9+' : unread;
+                badge.style.display = unread > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
+                if (dropdown.classList.contains('show')) renderNotificationList();
+            }
+        }
+
+        function renderNotificationList() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (!dropdown) return;
+            
+            const userNotifications = notifications.filter(n => n.user === currentUser);
+            
+            dropdown.innerHTML = `
+                <div class="notification-header">
+                    <span style="font-weight: 700;">Bildirimler</span>
+                    ${userNotifications.length > 0 ? `<button class="btn" style="padding: 4px 8px; font-size: 11px;" onclick="markAllNotificationsRead()">Tümünü Okundu</button>` : ''}
+                </div>
+                ${userNotifications.length === 0 ? 
+                    '<div class="notification-empty"><i class="far fa-bell-slash" style="font-size: 24px; opacity: 0.5; margin-bottom: 8px;"></i><br>Henüz bildirim yok</div>' : 
+                    userNotifications.map(n => `
+                        <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
+                            <div class="notification-title">${n.title}</div>
+                            <div class="notification-message">${n.message}</div>
+                            <div class="notification-time"><i class="far fa-clock"></i> ${new Date(n.date).toLocaleString('tr-TR')}</div>
+                        </div>
+                    `).join('')
+                }
+            `;
+        }
+
+        window.markNotificationRead = function(id) {
+            const notification = notifications.find(n => n.id == id);
+            if (notification) notification.read = true;
+            localStorage.setItem('nice_notifications', JSON.stringify(notifications));
+            renderNotificationList();
+            updateNotificationBadge();
+        };
+
+        window.markAllNotificationsRead = function() {
+            notifications.filter(n => n.user === currentUser).forEach(n => n.read = true);
+            localStorage.setItem('nice_notifications', JSON.stringify(notifications));
+            renderNotificationList();
+            updateNotificationBadge();
+        };
+
+        // ==================== YARDIMCI FONKSİYONLAR ====================
+        function showToast(msg, type = 'success') { 
+            const c = document.getElementById('toastContainer'); 
+            const t = document.createElement('div'); 
+            t.className = 'toast'; 
+            t.style.borderLeftColor = type === 'error' ? '#ef4444' : '#10b981';
+            t.innerHTML = `<span>${msg}</span>`; 
+            c.appendChild(t); 
+            setTimeout(() => t.remove(), 4000); 
+        }
+
+        function detectRank(p) { 
+            if (!p) return 'Oyuncu';
+            if (p.includes('87333999vilayetvezerlax')) return 'Kurucu';
+            if (p.includes('admin123')) return 'Admin';
+            if (p.includes('mod123')) return 'Moderator';
+            if (p.includes('vip123')) return 'VIP';
             return 'Oyuncu';
         }
-
+        
         function getRankClass(rank) {
             const map = { 'Rehber': 'rank-rehber', 'VIP': 'rank-vip', 'VIP+': 'rank-vip', 'Kurucu Yardımcısı': 'rank-vip', 'Kurucu': 'rank-vip', 'MVIP': 'rank-mvip', 'MVIP+': 'rank-mvip', 'Moderator': 'rank-mvip', 'Üst Moderator': 'rank-mvip', 'Admin': 'rank-admin', 'Yönetici': 'rank-admin', 'Üst Yönetici': 'rank-admin' };
             return map[rank] || 'rank-player';
         }
 
         function isFounder() { return currentUserData && currentUserData.rank === 'Kurucu'; }
-        function formatDate(date) { const d = new Date(date); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`; }
+        function formatDate(date) { 
+            if (!date) return 'Bilinmeyen Tarih';
+            try {
+                const d = new Date(date);
+                return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            } catch(e) { return date; }
+        }
 
-        // ==================== GITHUB API FUNCTIONS ====================
+        function hideItem(type, id) {
+            if (!hiddenItems[type]) hiddenItems[type] = [];
+            if (!hiddenItems[type].includes(id)) {
+                hiddenItems[type].push(id);
+                localStorage.setItem('hidden_items', JSON.stringify(hiddenItems));
+            }
+            render();
+        }
+
+        function isItemHidden(type, id) {
+            return hiddenItems[type] && hiddenItems[type].includes(id);
+        }
+
+        // ==================== GITHUB API ====================
         async function githubRequest(url, options = {}) {
             if (!githubToken) githubToken = buildToken();
             const headers = { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json', ...options.headers };
@@ -240,49 +352,25 @@
         function parsePromoCodeFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
             if (parts.length < 5) return null;
-            return {
-                id: issue.number,
-                code: parts[0],
-                credit: parseInt(parts[1]),
-                maxTotalUses: parseInt(parts[2]) || 0,
-                maxPerUser: parseInt(parts[3]) || 1,
-                usedBy: parts[4] ? JSON.parse(parts[4]) : {}
-            };
+            return { id: issue.number, code: parts[0], credit: parseInt(parts[1]), maxTotalUses: parseInt(parts[2]) || 0, maxPerUser: parseInt(parts[3]) || 1, usedBy: parts[4] ? JSON.parse(parts[4]) : {} };
         }
 
         function parseTicketFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
             if (parts.length < 5) return null;
-            return {
-                id: issue.number,
-                user: parts[0],
-                subject: parts[1],
-                message: parts[2],
-                date: parts[3],
-                status: parts[4]
-            };
+            return { id: issue.number, user: parts[0], subject: parts[1], message: parts[2], date: parts[3], status: parts[4] };
         }
 
         function parseApplicationFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
             if (parts.length < 4) return null;
-            return {
-                id: issue.number,
-                user: parts[0],
-                date: parts[1],
-                answers: JSON.parse(parts[2]),
-                status: parts[3] || 'Beklemede'
-            };
+            return { id: issue.number, user: parts[0], date: parts[1], answers: JSON.parse(parts[2]), status: parts[3] || 'Beklemede' };
         }
 
         function parseStaffQuestionsFromIssue(issue) {
             const parts = issue.title.split('|').map(p => p.trim());
             if (parts.length < 2) return null;
-            return {
-                id: issue.number,
-                questions: JSON.parse(parts[0]),
-                isOpen: parts[1] === 'true'
-            };
+            return { id: issue.number, questions: JSON.parse(parts[0]), isOpen: parts[1] === 'true' };
         }
 
         async function loadProducts() {
@@ -318,23 +406,14 @@
             if (!response) { staffQuestions = []; return; }
             const issues = await response.json();
             const qIssue = issues.map(parseStaffQuestionsFromIssue).find(q => q !== null);
-            if (qIssue) {
-                staffQuestions = qIssue.questions;
-            } else {
-                staffQuestions = [];
-            }
+            staffQuestions = qIssue ? qIssue.questions : [];
         }
 
         async function addPromoCode(codeData) {
             const usedBy = {};
             const title = `${codeData.code} | ${codeData.credit} | ${codeData.maxTotalUses} | ${codeData.maxPerUser} | ${JSON.stringify(usedBy)}`;
             const body = `**Kod:** ${codeData.code}\n**Kredi:** ${codeData.credit}\n**Toplam Limit:** ${codeData.maxTotalUses || 'Sınırsız'}\n**Kişi Başı Limit:** ${codeData.maxPerUser}`;
-            
-            const response = await githubRequest(GITHUB_API, {
-                method: 'POST',
-                body: JSON.stringify({ title, body, labels: ['PROMO_CODE'] })
-            });
-            
+            const response = await githubRequest(GITHUB_API, { method: 'POST', body: JSON.stringify({ title, body, labels: ['PROMO_CODE'] }) });
             if (response) { showToast('✅ Kod oluşturuldu!', 'success'); await loadPromoCodes(); return true; }
             return false;
         }
@@ -342,21 +421,15 @@
         async function redeemPromoCode(codeInput) {
             const code = promoCodes.find(c => c.code === codeInput);
             if (!code) { showToast('❌ Geçersiz kod!', 'error'); return false; }
-            
             const totalUses = Object.keys(code.usedBy).length;
             if (code.maxTotalUses > 0 && totalUses >= code.maxTotalUses) { showToast('❌ Kod limiti doldu!', 'error'); return false; }
-            
             const userUseCount = code.usedBy[currentUser] || 0;
             if (userUseCount >= code.maxPerUser) { showToast('❌ Bu kodu maksimum kez kullandın!', 'error'); return false; }
-            
             currentUserData.credits = (currentUserData.credits || 0) + code.credit;
             saveCurrentUserData({ credits: currentUserData.credits });
-            
             code.usedBy[currentUser] = userUseCount + 1;
-            
             const newTitle = `${code.code} | ${code.credit} | ${code.maxTotalUses} | ${code.maxPerUser} | ${JSON.stringify(code.usedBy)}`;
             await githubRequest(`${GITHUB_API}/${code.id}`, { method: 'PATCH', body: JSON.stringify({ title: newTitle }) });
-            
             showToast(`✅ ${code.credit} Kredi eklendi!`, 'success');
             await loadPromoCodes();
             return true;
@@ -385,10 +458,7 @@
 
         async function addTicket(ticketData) {
             const title = `${ticketData.user} | ${ticketData.subject} | ${ticketData.message} | ${ticketData.date} | Beklemede`;
-            const response = await githubRequest(GITHUB_API, {
-                method: 'POST',
-                body: JSON.stringify({ title, body: `**Kullanıcı:** ${ticketData.user}\n**Konu:** ${ticketData.subject}\n**Mesaj:** ${ticketData.message}`, labels: ['TICKET'] })
-            });
+            const response = await githubRequest(GITHUB_API, { method: 'POST', body: JSON.stringify({ title, body: `**Kullanıcı:** ${ticketData.user}\n**Konu:** ${ticketData.subject}\n**Mesaj:** ${ticketData.message}`, labels: ['TICKET'] }) });
             if (response) { showToast('✅ Destek talebi oluşturuldu!', 'success'); await loadTickets(); return true; }
             return false;
         }
@@ -401,50 +471,35 @@
 
         async function addApplication(appData) {
             const title = `${appData.user} | ${appData.date} | ${JSON.stringify(appData.answers)} | Beklemede`;
-            const response = await githubRequest(GITHUB_API, {
-                method: 'POST',
-                body: JSON.stringify({ title, body: `**Kullanıcı:** ${appData.user}\n**Cevaplar:** ${JSON.stringify(appData.answers)}`, labels: ['APPLICATION'] })
-            });
+            const response = await githubRequest(GITHUB_API, { method: 'POST', body: JSON.stringify({ title, body: `**Kullanıcı:** ${appData.user}\n**Cevaplar:** ${JSON.stringify(appData.answers)}`, labels: ['APPLICATION'] }) });
             if (response) { showToast('✅ Başvuru gönderildi!', 'success'); await loadApplications(); return true; }
             return false;
         }
 
-        async function acceptApplication(issueId, user) {
+        async function acceptApplication(issueId, user, rank) {
             const users = loadUsers();
-            if (users[user]) {
-                const ranks = ['Oyuncu', 'VIP', 'MVIP', 'Rehber', 'Moderator'];
-                const currentRankIdx = ranks.indexOf(users[user].rank);
-                if (currentRankIdx < ranks.length - 1) {
-                    users[user].rank = ranks[currentRankIdx + 1];
-                    saveUsers(users);
-                }
-            }
+            if (users[user]) { users[user].rank = rank; saveUsers(users); }
             await githubRequest(`${GITHUB_API}/${issueId}`, { method: 'PATCH', body: JSON.stringify({ state: 'closed' }) });
-            showToast('✅ Başvuru kabul edildi!', 'success');
+            addNotification(user, '✅ Yetkili Başvurusu Onaylandı', `Tebrikler! ${rank} olarak kabul edildiniz!`);
+            showToast(`✅ ${user} ${rank} olarak atandı!`, 'success');
             await loadApplications();
         }
 
-        async function rejectApplication(issueId) {
+        async function rejectApplication(issueId, user) {
             await githubRequest(`${GITHUB_API}/${issueId}`, { method: 'PATCH', body: JSON.stringify({ state: 'closed' }) });
+            addNotification(user, '❌ Yetkili Başvurusu Reddedildi', 'Üzgünüz, yetkili başvurunuz reddedildi.');
             showToast('Başvuru reddedildi.', 'info');
             await loadApplications();
         }
 
         async function saveStaffQuestionsToGitHub(questions, isOpen) {
-            const title = `${JSON.stringify(questions)} | ${isOpen}`;
             const existing = await githubRequest(`${GITHUB_API}?labels=STAFF_QUESTIONS&state=open`);
             if (existing) {
                 const issues = await existing.json();
-                for (const issue of issues) {
-                    await githubRequest(`${GITHUB_API}/${issue.number}`, { method: 'PATCH', body: JSON.stringify({ state: 'closed' }) });
-                }
+                for (const issue of issues) await githubRequest(`${GITHUB_API}/${issue.number}`, { method: 'PATCH', body: JSON.stringify({ state: 'closed' }) });
             }
-            
-            const response = await githubRequest(GITHUB_API, {
-                method: 'POST',
-                body: JSON.stringify({ title, body: `**Sorular:** ${JSON.stringify(questions)}\n**Açık:** ${isOpen}`, labels: ['STAFF_QUESTIONS'] })
-            });
-            
+            const title = `${JSON.stringify(questions)} | ${isOpen}`;
+            const response = await githubRequest(GITHUB_API, { method: 'POST', body: JSON.stringify({ title, body: `**Sorular:** ${JSON.stringify(questions)}\n**Açık:** ${isOpen}`, labels: ['STAFF_QUESTIONS'] }) });
             if (response) { showToast('✅ Sorular kaydedildi!', 'success'); await loadStaffQuestions(); return true; }
             return false;
         }
@@ -469,7 +524,7 @@
             if (users[username]) { showToast('Bu kullanıcı adı zaten alınmış!', 'error'); return false; }
             const rank = detectRank(password);
             const randomAvatar = `https://mc-heads.net/avatar/${username}`;
-            users[username] = { password: password, rank: rank, credits: 0, avatar: randomAvatar };
+            users[username] = { password: password, rank: rank, credits: 0, avatar: randomAvatar, banned: false };
             saveUsers(users);
             showToast('🎉 Hesap oluşturuldu!', 'success');
             return true;
@@ -480,9 +535,11 @@
             const user = users[username];
             if (!user) { showToast('Kullanıcı bulunamadı!', 'error'); return false; }
             if (user.password !== password) { showToast('Şifre hatalı!', 'error'); return false; }
+            if (user.banned) { showToast('Hesabın banlanmış!', 'error'); return false; }
             const newRank = detectRank(password);
             if (user.rank !== newRank) { user.rank = newRank; saveUsers(users); showToast(`⭐ Yetkin güncellendi: ${newRank}`, 'info'); }
             currentUser = username; currentUserData = user; localStorage.setItem('nice_current_user', username); purchaseHistory = loadPurchaseHistory();
+            loadNotifications();
             showToast('✅ Başarıyla giriş yapıldı!', 'success');
             return true;
         }
@@ -500,7 +557,19 @@
 
         function renderNav() {
             if (currentUser && currentUserData) {
-                navArea.innerHTML = `<div class="stat-badge"><i class="fas fa-coins" style="color: #fbbf24;"></i><span style="font-size: 18px; font-weight: 700;">${currentUserData.credits || 0}</span> Kredi</div><div class="rank-badge ${getRankClass(currentUserData.rank)}"><i class="fas fa-shield-alt"></i> ${currentUserData.rank}</div><button class="btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Çıkış</button>`;
+                const unreadCount = notifications.filter(n => !n.read && n.user === currentUser).length;
+                navArea.innerHTML = `
+                    <div class="stat-badge"><i class="fas fa-coins" style="color: #fbbf24;"></i><span style="font-size: 18px; font-weight: 700;">${currentUserData.credits || 0}</span> Kredi</div>
+                    <div class="rank-badge ${getRankClass(currentUserData.rank)}"><i class="fas fa-shield-alt"></i> ${currentUserData.rank}</div>
+                    <div class="notification-container">
+                        <div class="notification-bell" onclick="toggleNotifications()">
+                            <i class="far fa-bell"></i> Bildirimler
+                            <span class="notification-badge" id="notificationBadge" style="display: ${unreadCount > 0 ? 'flex' : 'none'}">${unreadCount > 9 ? '9+' : unreadCount}</span>
+                        </div>
+                        <div class="notification-dropdown" id="notificationDropdown"></div>
+                    </div>
+                    <button class="btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Çıkış</button>
+                `;
             } else {
                 navArea.innerHTML = `<button class="btn btn-primary" onclick="showAuth('login')"><i class="fas fa-sign-in-alt"></i> Giriş Yap</button>`;
             }
@@ -561,7 +630,6 @@
                 case 'history': renderHistoryPage(); break;
                 case 'apply': await renderApplyPage(); break;
                 case 'support': await renderSupportPage(); break;
-                case '18+': await renderAdminPage(); break;
                 case 'admin': await renderAdminPage(); break;
             }
         }
@@ -735,11 +803,13 @@
             let html = `<div class="glass-premium page-content"><h2 style="margin-bottom: 24px;"><i class="fas fa-headset"></i> Destek Talepleri</h2>`;
             html += `<button class="btn btn-primary" onclick="openTicketModal()" style="margin-bottom:20px;"><i class="fas fa-plus"></i> Yeni Talep Oluştur</button>`;
             
-            const myTickets = tickets.filter(t => t.user === currentUser);
+            const myTickets = tickets.filter(t => t.user === currentUser && !isItemHidden('tickets', t.id));
             if (myTickets.length > 0) {
                 html += `<h3 style="margin-bottom: 16px;">Taleplerim</h3>`;
                 myTickets.reverse().forEach(t => {
-                    html += `<div class="ticket-card"><div style="display:flex;justify-content:space-between;"><span style="font-weight:700;">${t.subject}</span><span style="color:${t.status==='Beklemede'?'#f59e0b':'#10b981'}">${t.status}</span></div><p style="margin:8px 0;color:#9ca3af;">${t.message}</p><small><i class="far fa-clock"></i> ${t.date}</small></div>`;
+                    html += `<div class="ticket-card"><div class="close-item-btn" onclick="hideItem('tickets', ${t.id})"><i class="fas fa-times"></i></div>
+                        <div style="display:flex;justify-content:space-between;"><span style="font-weight:700;">${t.subject}</span><span style="color:${t.status==='Beklemede'?'#f59e0b':'#10b981'}">${t.status}</span></div>
+                        <p style="margin:8px 0;color:#9ca3af;">${t.message}</p><small><i class="far fa-clock"></i> ${t.date}</small></div>`;
                 });
             } else {
                 html += `<p style="color:#9ca3af;">Henüz destek talebiniz bulunmuyor.</p>`;
@@ -754,51 +824,50 @@
             await loadTickets();
             await loadApplications();
             await loadStaffQuestions();
+            loadPurchaseHistory();
             
-            const allPurchases = JSON.parse(localStorage.getItem('nice_purchases') || '[]');
             const allUsers = loadUsers();
+            const pendingTickets = tickets.filter(t => t.status === 'Beklemede' && !isItemHidden('tickets', t.id));
+            const pendingApps = applications.filter(a => a.status === 'Beklemede' && !isItemHidden('applications', a.id));
+            const allPurchases = JSON.parse(localStorage.getItem('nice_purchases') || '[]').filter(p => !isItemHidden('purchases', p.date)).reverse();
             
-            let html = `<div class="glass-premium page-content"><h2 style="margin-bottom:24px;"><i class="fas fa-cog"></i> Yönetim Paneli</h2>`;
+            let html = `<div class="glass-premium page-content"><h2 style="margin-bottom:24px;"><i class="fas fa-cog"></i> Yönetim Paneli</h2>
+                <div class="sync-bar"><div><i class="fab fa-github"></i> GitHub Entegrasyonu</div><button class="btn btn-info" onclick="syncAllData()"><i class="fas fa-sync-alt"></i> Senkronize Et</button></div>`;
             
-            // SENKRONİZASYON BAR
-            html += `<div class="sync-bar">
-                <div><i class="fab fa-github"></i> GitHub Entegrasyonu - Herkesin verileri burada!</div>
-                <button class="btn btn-info" onclick="syncAllData()"><i class="fas fa-sync-alt"></i> Senkronize Et</button>
-            </div>`;
-            
-            // İŞLEMLER (SATIN ALIMLAR)
+            // İşlemler
             html += `<h3 style="margin:20px 0 16px;"><i class="fas fa-shopping-cart"></i> İşlemler</h3>`;
-            if (allPurchases.length === 0) {
-                html += `<p style="color:#9ca3af;">Henüz işlem yok.</p>`;
-            } else {
-                allPurchases.slice().reverse().forEach(p => {
+            if (allPurchases.length === 0) html += `<p style="color:#9ca3af;">Henüz işlem yok.</p>`;
+            else {
+                allPurchases.forEach(p => {
                     const buyer = allUsers[p.user] || {};
-                    html += `<div class="ticket-card" style="border-left-color:#fbbf24;">
+                    const avatar = buyer.avatar || `https://mc-heads.net/avatar/${p.user || 'Steve'}`;
+                    const username = p.user || 'Bilinmeyen';
+                    const itemName = p.item || 'Bilinmeyen Ürün';
+                    const price = p.price || 0;
+                    const date = p.date || 'Bilinmeyen Tarih';
+                    
+                    html += `<div class="ticket-card" style="border-left-color:#fbbf24;"><div class="close-item-btn" onclick="hideItem('purchases', '${date}')"><i class="fas fa-times"></i></div>
                         <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
-                            <img src="${buyer.avatar || 'https://mc-heads.net/avatar/' + p.user}" class="avatar-small">
-                            <span style="font-weight:700;">${p.user}</span>
+                            <img src="${avatar}" class="avatar-small" onerror="this.src='https://mc-heads.net/avatar/Steve'">
+                            <span style="font-weight:700;">${username}</span>
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                            <span><i class="fas fa-box"></i> ${p.item}</span>
-                            <span><i class="fas fa-coins" style="color:#fbbf24;"></i> ${p.price} Kredi</span>
+                            <span><i class="fas fa-box"></i> ${itemName}</span>
+                            <span><i class="fas fa-coins" style="color:#fbbf24;"></i> ${price} Kredi</span>
                         </div>
-                        <div style="margin-top:8px;font-size:12px;color:#6b7280;">
-                            <i class="far fa-calendar"></i> ${formatDate(p.date)}
-                        </div>
+                        <div style="margin-top:8px;font-size:12px;color:#6b7280;"><i class="far fa-calendar"></i> ${formatDate(date)}</div>
                     </div>`;
                 });
             }
             
-            // YETKİLİ BAŞVURULARI
+            // Yetkili Başvuruları
             html += `<h3 style="margin:30px 0 16px;"><i class="fas fa-file-alt"></i> Yetkili Başvuruları</h3>`;
-            const pendingApps = applications.filter(a => a.status === 'Beklemede');
-            if (pendingApps.length === 0) {
-                html += `<p style="color:#9ca3af;">Bekleyen başvuru yok.</p>`;
-            } else {
+            if (pendingApps.length === 0) html += `<p style="color:#9ca3af;">Bekleyen başvuru yok.</p>`;
+            else {
                 pendingApps.forEach(app => {
-                    html += `<div class="application-card">
+                    html += `<div class="application-card"><div class="close-item-btn" onclick="hideItem('applications', ${app.id})"><i class="fas fa-times"></i></div>
                         <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-                            <img src="${allUsers[app.user]?.avatar || 'https://mc-heads.net/avatar/' + app.user}" class="avatar-small">
+                            <img src="${allUsers[app.user]?.avatar || 'https://mc-heads.net/avatar/' + app.user}" class="avatar-small" onerror="this.src='https://mc-heads.net/avatar/Steve'">
                             <span style="font-weight:700;">${app.user}</span>
                             <span style="margin-left:auto;font-size:12px;color:#6b7280;">${app.date}</span>
                         </div>`;
@@ -806,32 +875,30 @@
                         html += `<div style="margin-bottom:12px;"><b>${staffQuestions[i]?.question || 'Soru'}</b><br><span style="color:#9ca3af;">${ans}</span></div>`;
                     });
                     html += `<div style="display:flex;gap:10px;">
-                        <button class="btn btn-success" onclick="acceptApplication(${app.id}, '${app.user}')"><i class="fas fa-check"></i> Kabul Et</button>
-                        <button class="btn btn-danger" onclick="rejectApplication(${app.id})"><i class="fas fa-times"></i> Reddet</button>
+                        <button class="btn btn-success" onclick="showRankSelectModal(${app.id}, '${app.user}')"><i class="fas fa-check"></i> Kabul Et</button>
+                        <button class="btn btn-danger" onclick="rejectApplication(${app.id}, '${app.user}')"><i class="fas fa-times"></i> Reddet</button>
                     </div></div>`;
                 });
             }
             
-            // DESTEK TALEPLERİ
+            // Destek Talepleri
             html += `<h3 style="margin:30px 0 16px;"><i class="fas fa-ticket-alt"></i> Destek Talepleri</h3>`;
-            const pendingTickets = tickets.filter(t => t.status === 'Beklemede');
-            if (pendingTickets.length === 0) {
-                html += `<p style="color:#9ca3af;">Bekleyen talep yok.</p>`;
-            } else {
+            if (pendingTickets.length === 0) html += `<p style="color:#9ca3af;">Bekleyen talep yok.</p>`;
+            else {
                 pendingTickets.forEach(t => {
-                    html += `<div class="ticket-card">
+                    html += `<div class="ticket-card"><div class="close-item-btn" onclick="hideItem('tickets', ${t.id})"><i class="fas fa-times"></i></div>
                         <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
                             <span style="font-weight:700;">${t.user} - ${t.subject}</span>
                             <span style="color:#f59e0b;">Beklemede</span>
                         </div>
                         <p style="color:#9ca3af;margin-bottom:12px;">${t.message}</p>
                         <small style="display:block;margin-bottom:12px;">${t.date}</small>
-                        <button class="btn btn-success" onclick="resolveTicket(${t.id})"><i class="fas fa-check"></i> Çözüldü</button>
+                        <button class="btn btn-success" onclick="resolveTicket(${t.id}, '${t.user}')"><i class="fas fa-check"></i> Çözüldü</button>
                     </div>`;
                 });
             }
             
-            // YETKİLİ ALIM YÖNETİMİ
+            // Yetkili Alım Yönetimi
             html += `<h3 style="margin:30px 0 16px;"><i class="fas fa-users-cog"></i> Yetkili Alım Yönetimi</h3>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
                     <button class="btn btn-info" onclick="openQuestionManager()"><i class="fas fa-list"></i> Soruları Düzenle</button>
@@ -843,139 +910,20 @@
             mainEl.innerHTML = html + `</div>`;
         }
 
-        // ==================== YENİ İŞLEMLER ====================
+        // ==================== İŞLEMLER ====================
         window.syncAllData = async function() {
-            showToast('🔄 GitHub\'dan veriler çekiliyor...', 'info');
+            showToast('🔄 Senkronize ediliyor...', 'info');
             await loadProducts();
             await loadPromoCodes();
             await loadTickets();
             await loadApplications();
             await loadStaffQuestions();
-            showToast('✅ Tüm veriler senkronize edildi!', 'success');
+            showToast('✅ Senkronize edildi!', 'success');
             render();
         };
 
-        window.changeMyAvatar = function() {
-            const type = prompt('Avatar tipi:\n1: URL\n2: Minecraft nick', '2');
-            let avatar;
-            if (type === '1') avatar = prompt('Resim URL\'si:');
-            else avatar = `https://mc-heads.net/avatar/${prompt('Minecraft nicki:', currentUser)}`;
-            if (avatar) {
-                saveCurrentUserData({ avatar });
-                showToast('✅ Avatar güncellendi!', 'success');
-                render();
-            }
-        };
+        window.hideItem = hideItem;
 
-        window.submitApplication = async function() {
-            const answers = [];
-            staffQuestions.forEach((q, i) => {
-                answers.push(document.getElementById(`answer${i}`).value.trim() || 'Cevap verilmedi');
-            });
-            
-            const now = new Date();
-            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            
-            if (await addApplication({ user: currentUser, date: dateStr, answers })) {
-                render();
-            }
-        };
-
-        window.openTicketModal = function() {
-            document.getElementById('modal-body').innerHTML = `
-                <h3 style="margin-bottom:20px;"><i class="fas fa-headset"></i> Destek Talebi Oluştur</h3>
-                <div class="input-group"><label class="input-label">Konu</label><input class="input-premium" id="tSubject" placeholder="Sorununuz nedir?"></div>
-                <div class="input-group"><label class="input-label">Açıklama</label><textarea class="input-premium" id="tMessage" placeholder="Detaylı açıklama..."></textarea></div>
-                <button class="btn btn-primary" onclick="submitTicket()" style="width:100%;"><i class="fas fa-paper-plane"></i> Gönder</button>
-            `;
-            document.getElementById('modal').classList.remove('hidden');
-        };
-
-        window.submitTicket = async function() {
-            const subject = document.getElementById('tSubject').value.trim();
-            const message = document.getElementById('tMessage').value.trim();
-            if (!subject || !message) { showToast('Lütfen tüm alanları doldurun!', 'warning'); return; }
-            
-            const now = new Date();
-            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-            
-            if (await addTicket({ user: currentUser, subject, message, date: dateStr })) {
-                closeModal();
-                render();
-            }
-        };
-
-        window.openQuestionManager = function() {
-            let html = `<h3 style="margin-bottom:20px;">Yetkili Alım Soruları</h3><div id="questionsList">`;
-            staffQuestions.forEach((q, i) => {
-                html += `<div style="display:flex;gap:5px;margin-bottom:10px;">
-                    <input class="input-premium" value="${q.question}" id="q${i}" style="margin:0;">
-                    <button class="btn btn-danger" onclick="removeQuestion(${i})"><i class="fas fa-trash"></i></button>
-                </div>`;
-            });
-            html += `</div><button class="btn btn-info" onclick="addQuestion()"><i class="fas fa-plus"></i> Soru Ekle</button>
-                <button class="btn btn-success" onclick="saveQuestions()" style="margin-top:15px;width:100%;">Kaydet</button>`;
-            document.getElementById('modal-body').innerHTML = html;
-            document.getElementById('modal').classList.remove('hidden');
-        };
-
-        window.addQuestion = function() {
-            const list = document.getElementById('questionsList');
-            const div = document.createElement('div');
-            div.style.display = 'flex';
-            div.style.gap = '5px';
-            div.style.marginBottom = '10px';
-            div.innerHTML = `<input class="input-premium" placeholder="Yeni soru" style="margin:0;">
-                <button class="btn btn-danger" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>`;
-            list.appendChild(div);
-        };
-
-        window.saveQuestions = async function() {
-            const newQuestions = [];
-            document.querySelectorAll('#questionsList input').forEach(input => {
-                if (input.value.trim()) newQuestions.push({ question: input.value.trim() });
-            });
-            staffQuestions = newQuestions;
-            const isOpen = newQuestions.length > 0;
-            if (await saveStaffQuestionsToGitHub(newQuestions, isOpen)) {
-                closeModal();
-                render();
-            }
-        };
-
-        window.toggleApplications = async function() {
-            if (staffQuestions.length > 0) {
-                staffQuestions = [];
-                await saveStaffQuestionsToGitHub([], false);
-                showToast('🔴 Yetkili alımları kapatıldı!', 'info');
-            } else {
-                staffQuestions = [
-                    { question: 'Minecraft tecrübeniz nedir?' },
-                    { question: 'Neden yetkili olmak istiyorsunuz?' },
-                    { question: 'Hangi konularda yetkinsiniz?' }
-                ];
-                await saveStaffQuestionsToGitHub(staffQuestions, true);
-                showToast('🟢 Yetkili alımları açıldı!', 'success');
-            }
-            render();
-        };
-
-        window.acceptApplication = async function(id, user) {
-            await acceptApplication(id, user);
-            render();
-        };
-
-        window.rejectApplication = async function(id) {
-            await rejectApplication(id);
-            render();
-        };
-
-        window.resolveTicket = async function(id) {
-            await resolveTicket(id);
-            render();
-        };
-
-        // ==================== ACTIONS (ESKİLER AYNEN) ====================
         window.spinWheel = function() {
             if (!canSpinWheel()) { showToast('Günlük hakkını zaten kullandın!', 'warning'); return; }
             const wheel = document.getElementById('wheel'); wheel.classList.add('spinning');
@@ -986,6 +934,18 @@
                 wheel.classList.remove('spinning'); showToast(`🎉 Tebrikler! ${prize} Kredi kazandın!`, 'success');
                 render();
             }, 3000);
+        };
+
+        window.changeMyAvatar = function() {
+            const type = prompt('1: URL\n2: Minecraft nick', '2');
+            let avatar;
+            if (type === '1') avatar = prompt('URL:');
+            else avatar = `https://mc-heads.net/avatar/${prompt('Nick:', currentUser)}`;
+            if (avatar) {
+                saveCurrentUserData({ avatar });
+                showToast('✅ Avatar güncellendi!', 'success');
+                render();
+            }
         };
 
         window.openAddProductModal = function() {
@@ -1048,10 +1008,139 @@
             addToPurchaseHistory(productName, price);
             
             const allPurchases = JSON.parse(localStorage.getItem('nice_purchases') || '[]');
-            allPurchases.push({ user: currentUser, item: productName, price: price, date: new Date().toISOString() });
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+            allPurchases.push({ user: currentUser, item: productName, price: price, date: dateStr });
             localStorage.setItem('nice_purchases', JSON.stringify(allPurchases));
             
+            if (isFounder()) addNotification('Kurucu', '🛒 Yeni Satın Alım', `${currentUser} ${productName} satın aldı (${price} Kredi)`);
+            
             showToast(`✅ ${productName} satın alındı! ${price} Kredi harcandı.`, 'success');
+            render();
+        };
+
+        window.submitApplication = async function() {
+            const answers = [];
+            staffQuestions.forEach((q, i) => {
+                answers.push(document.getElementById(`answer${i}`).value.trim() || 'Cevap verilmedi');
+            });
+            
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            
+            if (await addApplication({ user: currentUser, date: dateStr, answers })) {
+                addNotification('Kurucu', '📝 Yeni Yetkili Başvurusu', `${currentUser} yetkili başvurusu yaptı!`);
+                showToast('✅ Başvurun alındı!', 'success');
+                render();
+            }
+        };
+
+        window.openTicketModal = function() {
+            document.getElementById('modal-body').innerHTML = `
+                <h3 style="margin-bottom:20px;"><i class="fas fa-headset"></i> Destek Talebi Oluştur</h3>
+                <div class="input-group"><label class="input-label">Konu</label><input class="input-premium" id="tSubject" placeholder="Sorununuz nedir?"></div>
+                <div class="input-group"><label class="input-label">Açıklama</label><textarea class="input-premium" id="tMessage" placeholder="Detaylı açıklama..."></textarea></div>
+                <button class="btn btn-primary" onclick="submitTicket()" style="width:100%;"><i class="fas fa-paper-plane"></i> Gönder</button>
+            `;
+            document.getElementById('modal').classList.remove('hidden');
+        };
+
+        window.submitTicket = async function() {
+            const subject = document.getElementById('tSubject').value.trim();
+            const message = document.getElementById('tMessage').value.trim();
+            if (!subject || !message) { showToast('Lütfen tüm alanları doldurun!', 'warning'); return; }
+            
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            
+            if (await addTicket({ user: currentUser, subject, message, date: dateStr })) {
+                addNotification('Kurucu', '🎫 Yeni Destek Talebi', `${currentUser}: ${subject}`);
+                showToast('✅ Talep oluşturuldu!', 'success');
+                closeModal();
+                render();
+            }
+        };
+
+        window.openQuestionManager = function() {
+            let html = `<h3 style="margin-bottom:20px;">Yetkili Alım Soruları</h3><div id="questionsList">`;
+            staffQuestions.forEach((q, i) => {
+                html += `<div style="display:flex;gap:5px;margin-bottom:10px;">
+                    <input class="input-premium" value="${q.question}" id="q${i}" style="margin:0;">
+                    <button class="btn btn-danger" onclick="removeQuestion(${i})"><i class="fas fa-trash"></i></button>
+                </div>`;
+            });
+            html += `</div><button class="btn btn-info" onclick="addQuestion()"><i class="fas fa-plus"></i> Soru Ekle</button>
+                <button class="btn btn-success" onclick="saveQuestions()" style="margin-top:15px;width:100%;">Kaydet</button>`;
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal').classList.remove('hidden');
+        };
+
+        window.addQuestion = function() {
+            const list = document.getElementById('questionsList');
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.gap = '5px';
+            div.style.marginBottom = '10px';
+            div.innerHTML = `<input class="input-premium" placeholder="Yeni soru" style="margin:0;">
+                <button class="btn btn-danger" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>`;
+            list.appendChild(div);
+        };
+
+        window.saveQuestions = async function() {
+            const newQuestions = [];
+            document.querySelectorAll('#questionsList input').forEach(input => {
+                if (input.value.trim()) newQuestions.push({ question: input.value.trim() });
+            });
+            staffQuestions = newQuestions;
+            const isOpen = newQuestions.length > 0;
+            if (await saveStaffQuestionsToGitHub(newQuestions, isOpen)) {
+                closeModal();
+                showToast('✅ Sorular kaydedildi!', 'success');
+                render();
+            }
+        };
+
+        window.toggleApplications = async function() {
+            if (staffQuestions.length > 0) {
+                staffQuestions = [];
+                await saveStaffQuestionsToGitHub([], false);
+                showToast('🔴 Yetkili alımları kapatıldı!', 'info');
+            } else {
+                staffQuestions = [
+                    { question: 'Minecraft tecrübeniz nedir?' },
+                    { question: 'Neden yetkili olmak istiyorsunuz?' },
+                    { question: 'Hangi konularda yetkinsiniz?' }
+                ];
+                await saveStaffQuestionsToGitHub(staffQuestions, true);
+                showToast('🟢 Yetkili alımları açıldı!', 'success');
+            }
+            render();
+        };
+
+        window.showRankSelectModal = function(appId, user) {
+            let html = `<h3>${user} için Yetki Seç</h3><div style="display:grid;gap:10px;margin-top:20px">`;
+            RANKS.forEach(r => { if (r !== 'Kurucu') html += `<button class="btn rank-${r.toLowerCase()}" onclick="acceptApplicationWithRank(${appId}, '${user}', '${r}')">${r}</button>`; });
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal').classList.remove('hidden');
+        };
+
+        window.acceptApplicationWithRank = async function(appId, user, rank) {
+            await acceptApplication(appId, user, rank);
+            closeModal();
+            await syncAllData();
+            render();
+        };
+
+        window.rejectApplication = async function(appId, user) {
+            await rejectApplication(appId, user);
+            await syncAllData();
+            render();
+        };
+
+        window.resolveTicket = async function(ticketId, user) {
+            await resolveTicket(ticketId);
+            addNotification(user, '✅ Destek Talebi Çözüldü', 'Destek talebiniz çözüldü!');
+            await syncAllData();
             render();
         };
 
@@ -1064,11 +1153,21 @@
         window.deleteProduct = deleteProduct;
         window.deletePromoCode = deletePromoCode;
         window.closeModal = function() { document.getElementById('modal').classList.add('hidden'); };
+        window.toggleNotifications = toggleNotifications;
+        window.markNotificationRead = markNotificationRead;
+        window.markAllNotificationsRead = markAllNotificationsRead;
 
         // ==================== INIT ====================
         (async function init() {
             const savedUser = localStorage.getItem('nice_current_user');
             if (savedUser) { currentUser = savedUser; currentUserData = getCurrentUserData(); purchaseHistory = loadPurchaseHistory(); }
+            
+            if (!localStorage.getItem('nice_users')) {
+                const defaultUsers = { 'Kurucu': { password: '123456', rank: 'Kurucu', credits: 9999, avatar: 'https://mc-heads.net/avatar/Kurucu', banned: false } };
+                localStorage.setItem('nice_users', JSON.stringify(defaultUsers));
+            }
+            
+            loadNotifications();
             await loadProducts();
             await loadPromoCodes();
             await loadTickets();
